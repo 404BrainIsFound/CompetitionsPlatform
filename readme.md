@@ -1,5 +1,5 @@
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Ara-Ara-Arabiansss/SoftwareEngineering)
-<a href="https://render.com/deploy?repo=https://github.com/Ara-Ara-Arabiansss/SoftwareEngineering">
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/404BrainIsFound/CompetitionsPlatform)
+<a href="https://render.com/deploy?repo=https://github.com/404BrainIsFound/CompetitionsPlatform">
   <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
 </a>
 
