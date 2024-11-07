@@ -1,8 +1,8 @@
 services:
 - type: web
-  name: competitions-platform
-  env: python
-  repo: https://github.com/Ara-Ara-Arabiansss/SoftwareEngineering.git
+  runtime: python
+  name: CompetitionsPlatform
+  repo: https://github.com/404BrainIsFound/CompetitionsPlatform
   plan: free
   branch: main
   healthCheckPath: /healthcheck
