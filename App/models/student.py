@@ -1,8 +1,7 @@
 from App.database import db
 from App.models import User
-from .score_manager import *
 
-class Student(User, ScoreManager):
+class Student(User):
     __tablename__ = 'student'
 
     rating_score = db.Column(db.Float, nullable=False, default=0)
@@ -13,7 +12,7 @@ class Student(User, ScoreManager):
     notifications = db.relationship('Notification', backref='student', lazy=True)
 
     def __init__(self, username, password, email):
-        super(User).__init__(username, password, email)
+        super().__init__(username, password, email)
         self.rating_score = 0
         self.comp_count = 0
         self.curr_rank = 0

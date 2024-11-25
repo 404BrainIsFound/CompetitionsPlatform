@@ -1,7 +1,6 @@
 from App.database import db
-from .score_manager import *
 
-class Notification(db.Model, ScoreManager):
+class Notification(db.Model):
     __tablename__ = 'notification'
     
     id = db.Column(db.Integer, primary_key=True)

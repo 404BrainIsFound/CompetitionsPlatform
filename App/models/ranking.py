@@ -1,7 +1,6 @@
 from App.database import db
-from .score_manager import *
 
-class Ranking(db.Model, ScoreManager):
+class Ranking(db.Model):
     __tablename__ = 'ranking'
 
     id = db.Column(db.Integer, primary_key = True)
