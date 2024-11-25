@@ -1,13 +1,13 @@
 from App.database import db
 from App.models import Student, Competition, Notification, CompetitionTeam
 
-def create_student(username, password):
+def create_student(username, password, email):
     student = get_student_by_username(username)
     if student:
         print(f'{username} already exists!')
         return None
 
-    newStudent = Student(username=username, password=password)
+    newStudent = Student(username=username, password=password, email=email)
     try:
         db.session.add(newStudent)
         db.session.commit()

@@ -26,7 +26,7 @@ def initialize():
         reader = csv.DictReader(student_file)
 
         for student in reader:
-            stud = create_student(student['username'], student['password'])
+            stud = create_student(student['username'], student['password'], student['email'])
             #db.session.add(stud)
         #db.session.commit()
     
@@ -37,7 +37,7 @@ def initialize():
         reader = csv.DictReader(moderator_file)
 
         for moderator in reader:
-            mod = create_moderator(moderator['username'], moderator['password'])
+            mod = create_moderator(moderator['username'], moderator['password'], moderator['email'])
             #db.session.add(mod)
         #db.session.commit()
     

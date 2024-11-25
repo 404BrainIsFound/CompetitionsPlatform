@@ -11,8 +11,8 @@ class Student(User):
     teams = db.relationship('Team', secondary='student_team', overlaps='students', lazy=True)
     notifications = db.relationship('Notification', backref='student', lazy=True)
 
-    def __init__(self, username, password):
-        super().__init__(username, password)
+    def __init__(self, username, password, email):
+        super().__init__(username, password, email)
         self.rating_score = 0
         self.comp_count = 0
         self.curr_rank = 0
@@ -45,7 +45,7 @@ class Student(User):
             "ID": self.id,
             "Username": self.username,
             "Rating Score": self.rating_score,
-            "Number of Competitions" : comp_count,
+            "Number of Competitions" : self.comp_count,
             "Rank" : self.curr_rank
         }
 

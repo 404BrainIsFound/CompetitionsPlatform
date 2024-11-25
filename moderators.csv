@@ -1,6 +1,6 @@
-username,password
-robert,robertpass
-patricia,patriciapass
-benjamin,benjaminpass
-debra,debrapass
-raymond,raymondpass
+username,password,email
+robert,robertpass,robert@mail.com
+patricia,patriciapass,patricia@mail.com
+benjamin,benjaminpass,benjamin@mail.com
+debra,debrapass,debra@mail.com
+raymond,raymondpass,raymond@mail.com
