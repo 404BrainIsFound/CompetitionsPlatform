@@ -51,15 +51,15 @@
     }
 
     .mail-icon {
-        width: 50px; /* Adjust icon size */
+        width: 50px;
         height: 50px;
         cursor: pointer;
-        border-radius: 50%; /* Optional styling */
+        border-radius: 50%;
         transition: transform 0.3s ease;
     }
 
     .mail-icon:hover {
-        transform: scale(1.1); /* Slight zoom on hover */
+        transform: scale(1.1);
     }
 
     .stats-container {
@@ -103,45 +103,44 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 15px;
+        padding: 20px;
         margin-bottom: 10px;
         background-color: #6E8898;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: white;
     }
 
-    .competition-card p {
+    .competition-card-left {
+        flex: 1;
+    }
+
+    .competition-card-left h4 {
         margin: 0;
+        font-size: 20px;
+        color: white;
+    }
+
+    .competition-card-left p {
+        margin: 5px 0;
         font-size: 16px;
         color: white;
     }
 
-    .competition-card a {
+    .competition-card-right {
+        text-align: right;
+    }
+
+    .competition-card-right p {
+        margin: 0;
+        font-size: 16px;
+        font-weight: bold;
         color: white;
-        text-decoration: none;
-        font-size: 14px;
     }
 
-    .competition-card a:hover {
-        text-decoration: underline;
-    }
-
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-        .stats-container {
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .stat-box {
-            width: 80%;
-            margin: 0 auto;
-        }
-
-        .profile-header {
-            flex-direction: column;
-            gap: 20px;
-        }
+    .competition-card a{
+        color: white;
+        text-align: right;
     }
 
     .sidepanel {
@@ -187,8 +186,30 @@
         padding: 1vw;
         outline-style: solid;
     }
-</style>
 
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .stats-container {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .stat-box {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .competition-card {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .competition-card-right {
+            text-align: left;
+            margin-top: 10px;
+        }
+    }
+</style>
 
 <!--Side Panel-->
 <div id="sidepanel" class="sidepanel" style="font-family: helvetica;">
@@ -212,7 +233,6 @@
 <div class="profile-card">
     <!-- Profile Header -->
     <div class="profile-header">
-        <!-- Left side: Profile picture and details -->
         <div class="profile-header-left">
             <img src="{{url_for('static', filename='defaultProfilePicture.png')}}" alt="Profile Picture" class="profile-image">
             <div class="profile-details">
@@ -220,7 +240,6 @@
                 <p>Email: {{ student.email }}</p>
             </div>
         </div>
-        <!-- Right side: Mail Icon -->
         {% if user.is_authenticated and user.id==student.id and session['user_type'] == 'student' %}
         <div>
             <img class="mail-icon" src="{{url_for('static', filename='mailIcon.jpg')}}" alt="Notifications" onclick="openNav()">
@@ -253,14 +272,21 @@
     <!-- Competitions Section -->
     <div class="competitions-section">
         <h3>Competitions:</h3>
-        {% for competition in competitions[::-1] %}
+        {% for competition in competitions %}
         <div class="competition-card">
-            <p>{{ competition }}</p>
-            <a href="{{ url_for('comp_views.competition_details_by_name', name=competition) }}">Details</a>
+            <div>
+                <h4><strong>{{ competition.name }}</strong></h4>
+                <p><strong>Team: {{ competition.team }}</strong></p>
+            </div>
+            <div>
+                <p><strong>Points Earned:</strong> {{ competition.points_earned }}</p>
+                <p><strong>Rating Score:</strong> {{ competition.rating_score | round(2) }}</p>
+                <a href="{{ url_for('comp_views.competition_details_by_name', name=competition.name) }}">Details</a>
+            </div>
         </div>
         {% endfor %}
         {% if competitions|length == 0 %}
-            <p style="color: white;">No Competitions to Show</p>
+        <p style="color: white;">No Competitions to Show</p>
         {% endif %}
     </div>
 </div>

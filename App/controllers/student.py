@@ -56,21 +56,26 @@ def display_student_info(username):
     if not student:
         print(f'{username} does not exist!')
         return None
-    else:
-        competitions = []
-        
-        for team in student.teams:
-            team_comps = CompetitionTeam.query.filter_by(team_id=team.id).all()
-            for comp_team in team_comps:
-                comp = Competition.query.filter_by(id=comp_team.comp_id).first()
-                competitions.append(comp.name)
 
-        profile_info = {
-            "profile" : student.get_json(),
-            "competitions" : competitions
-        }
+    competitions = []
+    
+    for team in student.teams:  # Iterate over the teams the student belongs to
+        team_comps = CompetitionTeam.query.filter_by(team_id=team.id).all()  # Get competition-team relationships
+        for comp_team in team_comps:
+            comp = Competition.query.filter_by(id=comp_team.comp_id).first()  # Fetch competition details
+            competitions.append({
+                "name": comp.name,
+                "team": team.name,  
+                "points_earned": comp_team.points_earned,
+                "rating_score": comp_team.rating_score,
+            })
 
-        return profile_info
+    profile_info = {
+        "profile": student.get_json(),
+        "competitions": competitions
+    }
+
+    return profile_info
 
 def display_notifications(username):
     student = get_student_by_username(username)
