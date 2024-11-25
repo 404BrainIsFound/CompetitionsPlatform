@@ -43,9 +43,6 @@
 </style>
 <div style="display: flex;">
     <div>
-        <center><h2 style="margin-left: 50px; color: white;">Competition Details</h2></center>
-    </div>
-    <div>
         {% if session['user_type'] == 'moderator' and moderator in competition.moderators and not competition.confirm %}
         <button type="button" style="background-color: black; padding: 5px; margin-left: 50px; margin-top: 50px; width: 120px; height: 35px; border-radius: 15px; font-family: helvetica;">
             <a style="color: white" href="{{ url_for('comp_views.add_results_page', comp_id=competition.id) }}">Add Results</a>
@@ -56,12 +53,13 @@
         {% endif %}
     </div>
 </div>
-<div class="container" style="font-family: serif;">
+<div class="container">
     {% if not competition.confirm %}
-        <center> <h4 style="color: white; background-color: black; border-radius: 15px;">{{ competition.name }} Unofficial Results</h4> </center>
+        <center> <h4 style="color: white;">{{ competition.name }} Unofficial Results</h4> </center>
     {% else %}
-        <center> <h4 style="color: white; background-color: black; border-radius: 15px;">{{ competition.name }} Official Results</h4> </center>
+        <center> <h4 style="color: white;">{{ competition.name }} Official Results</h4> </center>
     {% endif %}
+    <br>
     <table class="table" style="color: white; font-family: verdana;">
         <thead>
             <tr>
