@@ -59,7 +59,7 @@
 
     .flip-card-back {
         background-color: #9FB1BC;
-        color: black;
+        color: white;
         transform: rotateY(180deg);
         text-align: left;
         display: flex;
@@ -70,13 +70,13 @@
 
     /* Remove underlines in links */
     .flip-card-back a {
-        color: black; /* Keeps the text white */
+        color: white; /* Keeps the text white */
         text-decoration: none; /* Removes underline */
     }
 
     .flip-card-back a:hover {
         text-decoration: none; /* Prevents underline on hover */
-        color: black; /* Optional hover color for better visibility */
+        color: white; /* Optional hover color for better visibility */
     }
 
     .flip-card-back p {
@@ -122,7 +122,7 @@
     {% for competition in competitions %}
     <div class="flip-card">
         <div class="flip-card-inner">
-            <a style="color: black;" href="{{url_for('comp_views.competition_details', id=competition.id)}}">
+            <a style="color: white;" href="{{url_for('comp_views.competition_details', id=competition.id)}}">
                 <div class="flip-card-front">
                     <h3>{{competition.name}}</h3>
                 </div>
