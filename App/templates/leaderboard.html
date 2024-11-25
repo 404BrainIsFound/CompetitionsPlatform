@@ -7,6 +7,79 @@
 {% block content %}
 
 <style>
+    /* Card styling for the top 3 students */
+    .top-three-container {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-bottom: 30px;
+    }
+
+    .top-three-card {
+        background-color: #9FB1BC;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: left;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.75s;
+        width: 300px;
+        position: relative;
+    }
+
+    .top-three-card:hover {
+        box-shadow: 0 16px 32px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .top-three-card img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+        border: 2px solid black;
+    }
+
+    .top-three-card a{
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .top-three-card p{
+        color: white;
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .card-header h3 {
+        margin: 0;
+        font-size: 20px;
+        color: white;
+    }
+
+    .placement {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 32px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .card-body {
+        margin-top: 10px;
+    }
+
+    .card-body p {
+        margin: 5px 0;
+        font-size: 16px;
+        color: white;
+    }
 
     .tables-container {
         display: flex;
@@ -26,21 +99,12 @@
         border-bottom: 1px solid white;
     }
 
-    /*.leaderboard-table th {
-        background-color: #f2f2f2;
-        font-weight: bold;
-    }
-
-    .leaderboard-table tbody tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }*/
-
     .leaderboard-table tbody tr:hover {
-        background-color: black;
+        background-color: #9FB1BC;
     }
 
     .leaderboard-table tbody tr td a {
-        color: black;
+        color: white;
         text-decoration: none;
         font-weight: bold;
     }
@@ -51,29 +115,47 @@
 </style>
 
 <h4 style="text-align: center;margin: 20px 0;color: white;">Current leaderboard:</h4>
-<div class="container">
-    <div class="tables-container">
-        <div class="leaderboard-table">
-            <table class="table" style="font-family: verdana;">
-                <thead>
-                    <tr style="color: white;">
-                        <th><center>Overall Rank</center></th>
-                        <th><center>Username</center></th>
-                        <th><center>Rating Score</center></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student in leaderboard[:20] %}
-                    <tr style="color: white;">
-                        <td><center>{{student['placement']}}</center></td>
-                        <td><center><a style= "color: white;" href="{{url_for('index_views.student_profile_by_name', name=student['student'])}}">{{ student['student']}}</a></center></td>
-                        <td><center>{{'%0.2f' % student['rating score']|float}}</center></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+<!-- Top 3 Cards Section -->
+<div class="top-three-container">
+    {% for student in leaderboard[:3] %}
+    <div class="top-three-card">
+        <img src="{{ url_for('static', filename='defaultProfilePicture.png') }}" alt="Default Profile Picture">
+        <span class="placement">#{{ student['placement'] }}</span>
+        <p>
+            <strong>Username:</strong>
+            <a href="{{ url_for('index_views.student_profile_by_name', name=student['student']) }}">
+                {{ student['student'] }}
+            </a>
+        </p>
+        <p><strong>Rating Score:</strong> {{ '%0.2f' % student['rating score']|float }}</p>
     </div>
+    {% endfor %}
 </div>
-<div style="padding: 20px;"></div>
+
+<!-- Leaderboard Table Section -->
+<div class="container">
+    <table class="leaderboard-table" style="font-family: Verdana;color: white;">
+        <thead>
+            <tr>
+                <th>Overall Rank</th>
+                <th>Username</th>
+                <th>Rating Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in leaderboard[3:] %}
+            <tr>
+                <td>{{ student['placement'] }}</td>
+                <td>
+                    <a href="{{ url_for('index_views.student_profile_by_name', name=student['student']) }}">
+                        {{ student['student'] }}
+                    </a>
+                </td>
+                <td>{{ '%0.2f' % student['rating score']|float }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 {% endblock %}
