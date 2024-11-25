@@ -163,39 +163,39 @@
 </style>
 
 <div style="background-color: #9FB1BC; border-radius: 25px;" class="centers">
-    <h2 style="color: black;">Sign Up</h2>
+    <h2 style="color: white;">Sign Up</h2>
     
     <form action="{{ url_for('auth_views.signup') }}" method="post" style="font-family: helvetica;">
 
         <div class="txt_field">
-            <input style="color: black;" type="text" id="email" name="email" required>
-            <label style="color: black;" for="email">Email:</label>
+            <input style="color: white;" type="text" id="email" name="email" required>
+            <label style="color: white;" for="email">Email:</label>
         </div>
         
         <div class="txt_field">
-            <input style="color: black;" type="text" id="username" name="username" required>
-            <label style="color: black;" for="username">Username:</label>
+            <input style="color: white;" type="text" id="username" name="username" required>
+            <label style="color: white;" for="username">Username:</label>
         </div>
 
         <div class="txt_field">
-            <input style="color: black;" type="password" id="password" name="password" required>
-            <label style="color: black;" for="password">Password:</label>
+            <input style="color: white;" type="password" id="password" name="password" required>
+            <label style="color: white;" for="password">Password:</label>
         </div>
-        <p>Select Account Type:</p>
+        <!-- <p>Select Account Type:</p>
         <div class="radio_group">
             <input type="radio" id="student_radio" name="account_type" value="student" required>
             <label for="student_radio">Student</label>
         
             <input type="radio" id="moderator_radio" name="account_type" value="moderator">
             <label for="moderator_radio">Moderator</label>
-        </div>
+        </div> -->
 
 
         <input type="submit" class="btn" style="background-color: #6E8898;" value="Sign Up">
     </form>
     
-    <div style="color: black; margin: 25px;" class="login_link">
-        Already a user? <a style="color: black; text-decoration: underline;" href="{{ url_for('auth_views.login') }}" class="login-link">Log In</a>
+    <div style="color: white; margin: 25px;" class="login_link">
+        Already a user? <a style="color: white; text-decoration: underline;" href="{{ url_for('auth_views.login') }}" class="login-link">Log In</a>
     </div>
 </div>
 
