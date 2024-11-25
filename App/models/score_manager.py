@@ -1,13 +1,10 @@
 from App.database import db
+from abc import ABC, abstractmethod
 
-class ScoreManager(db.Model):
-    __tablename__ = 'score_manager'
-
+class ScoreManager:
     id = db.Column(db.Integer, primary_key = True)
     team_result = db.Column(db.Integer, db.ForeignKey('competition_team.id'), nullable = False)
-
-    def __init__(self, team_result):
-        self.team_result = team_result
     
+    @abstractmethod
     def update_scores(self):
         pass
