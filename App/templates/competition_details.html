@@ -18,7 +18,7 @@
         margin-bottom: 10px;
         background-color: #fff;
         transition: box-shadow 0.3s;
-        color: black;
+        color: #9FB1BC;
     }
 
     .card:hover {
@@ -37,17 +37,17 @@
     }
 
     .table tbody tr:hover {
-        background-color: black;
+        background-color: #9FB1BC;
     }
 
 </style>
 <div style="display: flex;">
     <div>
         {% if session['user_type'] == 'moderator' and moderator in competition.moderators and not competition.confirm %}
-        <button type="button" style="background-color: black; padding: 5px; margin-left: 50px; margin-top: 50px; width: 120px; height: 35px; border-radius: 15px; font-family: helvetica;">
+        <button type="button" style="background-color: #9FB1BC; padding: 5px; margin-left: 50px; margin-top: 50px; width: 120px; height: 35px; border-radius: 15px; font-family: helvetica;">
             <a style="color: white" href="{{ url_for('comp_views.add_results_page', comp_id=competition.id) }}">Add Results</a>
         </button>
-        <button type="button" style="background-color: black; padding: 5px; margin-left: 50px; margin-top: 50px; width: 120px; height: 35px; border-radius: 15px; font-family: helvetica;">
+        <button type="button" style="background-color: #9FB1BC; padding: 5px; margin-left: 50px; margin-top: 50px; width: 120px; height: 35px; border-radius: 15px; font-family: helvetica;">
             <a style="color: white" href="{{ url_for('comp_views.confirm_results', comp_name=competition.name) }}">Confirm Results</a>
         </button>
         {% endif %}
