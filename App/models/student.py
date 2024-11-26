@@ -1,7 +1,8 @@
 from App.database import db
 from App.models import User
+from .score_manager import *
 
-class Student(User):
+class Student(User, ScoreManager):
     __tablename__ = 'student'
 
     rating_score = db.Column(db.Float, nullable=False, default=0)
@@ -31,7 +32,7 @@ class Student(User):
             return None
         return None
     
-    def update_scores(self):
+    def update(self, message):
         pass
 
     def get_json(self):

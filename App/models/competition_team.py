@@ -1,6 +1,7 @@
 from App.database import db
+from .score_manager import *
 
-class CompetitionTeam(db.Model):
+class CompetitionTeam(db.Model, Subject):
     __tablename__ = 'competition_team'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -10,6 +11,7 @@ class CompetitionTeam(db.Model):
     rating_score = db.Column(db.Float, default=0)
 
     def __init__(self, comp_id, team_id):
+      super().__init__()
       self.comp_id = comp_id
       self.team_id = team_id
       self.points_earned = 0

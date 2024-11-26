@@ -1,6 +1,7 @@
 from App.database import db
+from .score_manager import *
 
-class Ranking(db.Model):
+class Ranking(db.Model, ScoreManager):
     __tablename__ = 'ranking'
 
     id = db.Column(db.Integer, primary_key = True)
@@ -12,3 +13,6 @@ class Ranking(db.Model):
     
     def update_rankings(self, rank):
         self.rank = rank
+
+    def update(self, message):
+        pass
