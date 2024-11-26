@@ -127,7 +127,7 @@ def get_results(id):
         return jsonify({'error': 'Leaderboard not found!'}), 404 
     return (jsonify(leaderboard),200)
 """
-#page to comp upload comp results
+#page to comp upload comp results   - to get details first
 @comp_views.route('/add_results/<int:comp_id>', methods=['GET'])
 def add_results_page(comp_id):
     competition = get_competition(comp_id)
@@ -152,6 +152,13 @@ def add_competition_results(comp_name):
     data = request.form
     
     students = [data['student1'], data['student2'], data['student3']]
+
+    for student_name in students:
+        student = get_student_by_username(student_name)                             #validate student
+        if not student:
+            flash(f"Student '{student_name}' does not exist!", "error")
+            return redirect(url_for('comp_views.add_results_page', comp_id=competition.id))
+
     response = add_team(moderator.username, comp_name, data['team_name'], students)
 
     if response:
