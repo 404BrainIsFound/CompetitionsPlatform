@@ -33,7 +33,9 @@ class Student(User, ScoreManager):
         return None
     
     def update(self, message):
-        pass
+        results = TeamCompetition.query(message)
+        if results:
+            self.rating_score += results.rating_score
 
     def get_json(self):
         return {

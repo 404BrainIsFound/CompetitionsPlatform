@@ -25,9 +25,9 @@ class CompetitionTeam(db.Model):
     def detach(self, manager: ScoreManager) -> None:
         self.managers.remove(manager)
 
-    def notify(self, message):
+    def notify(self):
         for manager in self.managers:
-            manager.update(message)
+            manager.update(id)
 
     def update_points(self, points_earned):
       self.points_earned = points_earned
