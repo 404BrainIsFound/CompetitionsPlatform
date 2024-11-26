@@ -1,7 +1,8 @@
 from App.database import db
 from App.models import User
+from .score_manager import *
 
-class Student(User):
+class Student(User, ScoreManager):
     __tablename__ = 'student'
 
     rating_score = db.Column(db.Float, nullable=False, default=0)
@@ -11,8 +12,8 @@ class Student(User):
     teams = db.relationship('Team', secondary='student_team', overlaps='students', lazy=True)
     notifications = db.relationship('Notification', backref='student', lazy=True)
 
-    def __init__(self, username, password):
-        super().__init__(username, password)
+    def __init__(self, username, password, email):
+        super().__init__(username, password, email)
         self.rating_score = 0
         self.comp_count = 0
         self.curr_rank = 0
@@ -30,6 +31,11 @@ class Student(User):
             db.session.rollback()
             return None
         return None
+    
+    def update(self, message):
+        results = TeamCompetition.query(message)
+        if results:
+            self.rating_score += results.rating_score
 
     def get_json(self):
         return {
@@ -45,7 +51,7 @@ class Student(User):
             "ID": self.id,
             "Username": self.username,
             "Rating Score": self.rating_score,
-            "Number of Competitions" : comp_count,
+            "Number of Competitions" : self.comp_count,
             "Rank" : self.curr_rank
         }
 

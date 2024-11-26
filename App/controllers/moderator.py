@@ -1,13 +1,13 @@
 from App.database import db
 from App.models import Moderator, Competition, Team, CompetitionTeam
 
-def create_moderator(username, password):
+def create_moderator(username, password, email):
     mod = get_moderator_by_username(username)
     if mod:
         print(f'{username} already exists!')
         return None
 
-    newMod = Moderator(username=username, password=password)
+    newMod = Moderator(username=username, password=password, email=email)
     try:
         db.session.add(newMod)
         db.session.commit()
