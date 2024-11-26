@@ -96,7 +96,7 @@
 
     .create-button {
         padding: 10px 20px;
-        background-color: black;
+        background-color: #9FB1BC;
         color: white;
         border-radius: 8px;
         text-decoration: none;
@@ -106,7 +106,7 @@
     }
 
     .create-button:hover {
-        background-color: #333;
+        background-color: #9FB1BC;
     }
 </style>
 
@@ -114,7 +114,7 @@
     <h4>List of Competitions:</h4>
     {% if session['user_type'] == 'moderator' %}
     <button class="create-button">
-        <a href="{{url_for('comp_views.create_comp_page')}}">Create Competition</a>
+        <a href="{{url_for('comp_views.create_comp_page')}}" style="color: white">Create Competition</a>
     </button>
     {% endif %}
 </div>

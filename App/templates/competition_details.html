@@ -40,19 +40,48 @@
         background-color: #9FB1BC;
     }
 
+    .moderator-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px; /* Space between buttons */
+        margin: 20px 0;
+    }
+
+    .moderator-buttons button {
+        background-color: #9FB1BC;
+        padding: 10px 20px;
+        border-radius: 15px;
+        border: none;
+        font-family: helvetica;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .moderator-buttons button:hover {
+        background-color: #9FB1BC;
+    }
+
+    .moderator-buttons a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+    }
 </style>
-<div style="display: flex;">
-    <div>
-        {% if session['user_type'] == 'moderator' and moderator in competition.moderators and not competition.confirm %}
-        <button type="button" style="background-color: #9FB1BC; padding: 5px; margin-left: 50px; margin-top: 50px; width: 120px; height: 35px; border-radius: 15px; font-family: helvetica;">
-            <a style="color: white" href="{{ url_for('comp_views.add_results_page', comp_id=competition.id) }}">Add Results</a>
+
+<!-- Moderator Buttons Section -->
+<div class="moderator-buttons">
+    {% if session['user_type'] == 'moderator' and moderator in competition.moderators and not competition.confirm %}
+        <button>
+            <a href="{{ url_for('comp_views.add_results_page', comp_id=competition.id) }}">Add Results</a>
         </button>
-        <button type="button" style="background-color: #9FB1BC; padding: 5px; margin-left: 50px; margin-top: 50px; width: 120px; height: 35px; border-radius: 15px; font-family: helvetica;">
-            <a style="color: white" href="{{ url_for('comp_views.confirm_results', comp_name=competition.name) }}">Confirm Results</a>
+        <button>
+            <a href="{{ url_for('comp_views.confirm_results', comp_name=competition.name) }}">Confirm Results</a>
         </button>
-        {% endif %}
-    </div>
+    {% endif %}
 </div>
+
 <div class="container">
     {% if not competition.confirm %}
         <center> <h4 style="color: white;">{{ competition.name }} Unofficial Results</h4> </center>
@@ -76,7 +105,7 @@
                 <td><center>{{row['team']}}</center></td>
                 <td>
                 {% for student in row['members'] %}
-                    <center><a style= "color: white;" href="{{url_for('index_views.student_profile_by_name', name=student)}}">{{student}}</p></center>
+                    <center><a style= "color: white;" href="{{url_for('index_views.student_profile_by_name', name=student)}}">{{student}}</a></center>
                 {% endfor %}
                 </td>
                 <td><center>{{row['score']}}</center></td>
