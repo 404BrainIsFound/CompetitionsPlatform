@@ -27,6 +27,10 @@ def create_competition(mod_name, comp_name, date, location, level, max_score):
 def get_competition_by_name(name):
     return Competition.query.filter_by(name=name).first()
 
+def get_competition_max_val(name):
+    temp = Competition.query.filter_by(name = name).first()
+    return temp.max_score
+
 def get_competition(id):
     return Competition.query.get(id)
 

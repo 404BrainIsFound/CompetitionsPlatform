@@ -112,8 +112,42 @@
     .leaderboard-table tbody tr td a:hover {
         text-decoration: underline;
     }
+
+    .alert {
+        padding: 20px;
+        background-color: #E2C044; /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    /* The close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* When moving the mouse over the close button */
+    .closebtn:hover {
+        color: black;
+    }
 </style>
 
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}
 <h4 style="text-align: center;margin: 20px 0;color: white;">Current leaderboard:</h4>
 <!-- Top 3 Cards Section -->
 <div class="top-three-container">

@@ -70,30 +70,66 @@
   .form-actions button:hover {
       background-color: #58727E;
   }
+  .alert {
+        padding: 20px;
+        background-color: #E2C044; /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    /* The close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* When moving the mouse over the close button */
+    .closebtn:hover {
+        color: black;
+    }
 </style>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}
+ 
+
 
 <div class="results-container">
     <h2 class="results-header">Competition Results</h2>
     <form name="addForm" method="POST" action="{{ url_for('comp_views.add_competition_results', comp_name=competition.name) }}">
         <div class="form-group">
             <label for="team_name">Team Name:</label>
-            <input type="text" id="team_name" name="team_name" placeholder="Enter Team Name" class="validate" required>
+            <input type="text" id="team_name" name="team_name"  class="validate" required>
         </div>
         <div class="form-group">
             <label for="student1">Student 1:</label>
-            <input type="text" id="student1" name="student1" placeholder="Enter Student Name"  class="validate" required>
+            <input type="text" id="student1" name="student1"  class="validate" required>
         </div>
         <div class="form-group">
             <label for="student2">Student 2:</label>
-            <input type="text" id="student2" name="student2" placeholder="Enter Student Name"  class="validate" required>
+            <input type="text" id="student2" name="student2"   class="validate" required>
         </div>
         <div class="form-group">
             <label for="student3">Student 3:</label>
-            <input type="text" id="student3" name="student3" placeholder="Enter Student Name" class="validate" required>
+            <input type="text" id="student3" name="student3"  class="validate" required>
         </div>
         <div class="form-group">
             <label for="score">Score:</label>
-            <input type="number" id="score" name="score" placeholder="Enter Score" class="validate" required>
+            <input type="number" id="score" name="score"  class="validate" required>
         </div>
         <div class="form-actions">
             <button type="submit">Upload Results</button>

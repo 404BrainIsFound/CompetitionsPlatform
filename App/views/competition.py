@@ -40,6 +40,10 @@ def create_comp():
     date = date[8] + date[9] + '-' + date[5] + date[6] + '-' + date[0] + date[1] + date[2] + date[3]
     
     response = create_competition(moderator.username, data['name'], date, data['location'], data['level'], data['max_score'])
+    if response:
+        flash("Added Competition!", "success")
+    else:
+        flash("Error adding Competition","error")
     return render_template('competitions.html', competitions=get_all_competitions(), user=current_user)
     #return (jsonify({'message': "Competition created!"}), 201)
     #return (jsonify({'error': "Error creating competition"}),500)
@@ -159,10 +163,20 @@ def add_competition_results(comp_name):
             flash(f"Student '{student_name}' does not exist!", "error")
             return redirect(url_for('comp_views.add_results_page', comp_id=competition.id))
 
+    if int(data['score']) > get_competition_max_val(comp_name):                  #added this to ensure not more than max
+        flash(f"Score is more than max score for competition", "error")
+        return redirect(url_for('comp_views.add_results_page', comp_id=competition.id))
+
     response = add_team(moderator.username, comp_name, data['team_name'], students)
 
     if response:
         response = add_results(moderator.username, comp_name, data['team_name'], int(data['score']))
+        if response:
+            flash("Results added successfully!", "success")
+        else:
+            flash("Failed to add results!", "error")
+    else:
+        flash("Failed to add team!", "error")
     #response = add_results(data['mod_name'], data['comp_name'], data['team_name'], int(data['score']))
     #if response:
     #    return (jsonify({'message': "Results added successfully!"}),201)
