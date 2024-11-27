@@ -8,7 +8,7 @@ class Competition(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name =  db.Column(db.String, nullable=False, unique=True)
-    date = db.Column(db.DateTime, default= datetime.utcnow)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
     location = db.Column(db.String(120), nullable=False)
     level = db.Column(db.Integer, default=1)
     max_score = db.Column(db.Integer, default=25)
