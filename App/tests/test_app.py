@@ -245,7 +245,25 @@ class IntegrationTests(unittest.TestCase):
       comp_team = add_results(mod.username, comp.name, "Runtime Terrors", 15)
       assert comp_team.points_earned == 15
 
+<<<<<<< HEAD
     def test_display_competition_results(self):
+=======
+    #Feature 3 Integration Tests
+    def test_display_student_info(self):
+      db.drop_all()
+      db.create_all()
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
+      comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      students = [student1.username, student2.username, student3.username]
+      team = add_team(mod.username, comp.name, "Runtime Terrors", students)
+      comp_team = add_results(mod.username, comp.name, "Runtime Terrors", 15)
+      update_ratings(mod.username, comp.name)
+      update_rankings()
+      self.assertDictEqual(display_student_info("james"), {"profile": {'id': 1, 'username': 'james', 'rating_score': 120, 'comp_count': 1, 'curr_rank': 1}, "competitions": [{'name': 'RunTime', 'points_earned': 15, 'rating_score': 120, 'team': 'Runtime Terrors'}]})
+>>>>>>> 296ce43 (Updated tests to match new rating calculations)
 
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
