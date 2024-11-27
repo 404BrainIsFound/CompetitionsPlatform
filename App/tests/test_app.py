@@ -195,6 +195,17 @@ class IntegrationTests(unittest.TestCase):
         newMod = create_moderator("debra", "debrapass", "debra@email.com")
         mod = get_moderator_by_username("debra")
         self.assertEqual(mod.username, "debra")
+
+
+    def test_create_team(self):
+
+        student1 = create_student("james", "jamespass", "james@email.com")
+        student2 = create_student("steven", "stevenpass", "steven@email.com")
+        student3 = create_student("emily", "emilypass", "emily@email.com")
+        students = [student1.username, student2.username, student3.username]
+        newteam = create_team("Runtime Errors", students)
+        team = get_team_by_name("Runtime Errors")
+        self.assertEqual(team.name, "Runtime Errors")
         
     
     #Feature 1 Integration Tests
