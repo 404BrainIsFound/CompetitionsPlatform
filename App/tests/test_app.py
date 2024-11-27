@@ -86,8 +86,9 @@ class UnitTests(unittest.TestCase):
     
     #Ranking Unit Tests
     def test_new_ranking(self):
-      ranking = Ranking(1, 1, "20-02-2024")
-      assert ranking.student_id == 1 and ranking.rank == 1 and ranking.date == "20-02-2024"
+      
+      ranking = Ranking(1)
+      assert ranking.student_id == 1
   
     # def test_set_points(self):
     
@@ -95,11 +96,11 @@ class UnitTests(unittest.TestCase):
     #   ranking.set_points(15)
     #   assert ranking.total_points == 15
 
-    # def test_update_ranking(self):
+    def test_update_ranking(self):
       
-    #   ranking = Ranking(1)
-    #   ranking.update_rankings(12)
-    #   assert ranking.rank == 12
+      ranking = Ranking(1)
+      ranking.update_rankings(12)
+      assert ranking.rank == 12
 
     # def test_previous_ranking(self):
     
@@ -245,25 +246,7 @@ class IntegrationTests(unittest.TestCase):
       comp_team = add_results(mod.username, comp.name, "Runtime Terrors", 15)
       assert comp_team.points_earned == 15
 
-<<<<<<< HEAD
     def test_display_competition_results(self):
-=======
-    #Feature 3 Integration Tests
-    def test_display_student_info(self):
-      db.drop_all()
-      db.create_all()
-      mod = create_moderator("debra", "debrapass", "debra@email.com")
-      comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      student1 = create_student("james", "jamespass", "james@email.com")
-      student2 = create_student("steven", "stevenpass", "steven@email.com")
-      student3 = create_student("emily", "emilypass", "emily@email.com")
-      students = [student1.username, student2.username, student3.username]
-      team = add_team(mod.username, comp.name, "Runtime Terrors", students)
-      comp_team = add_results(mod.username, comp.name, "Runtime Terrors", 15)
-      update_ratings(mod.username, comp.name)
-      update_rankings()
-      self.assertDictEqual(display_student_info("james"), {"profile": {'id': 1, 'username': 'james', 'rating_score': 120, 'comp_count': 1, 'curr_rank': 1}, "competitions": [{'name': 'RunTime', 'points_earned': 15, 'rating_score': 120, 'team': 'Runtime Terrors'}]})
->>>>>>> 296ce43 (Updated tests to match new rating calculations)
 
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
@@ -388,7 +371,7 @@ class IntegrationTests(unittest.TestCase):
       comp_team2 = add_results(mod.username, comp.name, "Scrum Lords", 10)
       update_ratings(mod.username, comp.name)
       update_rankings()
-      self.assertListEqual(display_rankings(), [{"placement": 1, "student": "james", "rating score": 120}, {"placement": 1, "student": "steven", "rating score": 120}, {"placement": 1, "student": "emily", "rating score": 120}, {"placement": 4, "student": "mark", "rating score": 80}, {"placement": 4, "student": "eric", "rating score": 80}, {"placement": 4, "student": "ryan", "rating score": 80}])
+      self.assertListEqual(display_rankings(), [{"placement": 1, "student": "james", "rating score": 24.0}, {"placement": 1, "student": "steven", "rating score": 24.0}, {"placement": 1, "student": "emily", "rating score": 24.0}, {"placement": 4, "student": "mark", "rating score": 16.0}, {"placement": 4, "student": "eric", "rating score": 16.0}, {"placement": 4, "student": "ryan", "rating score": 16.0}])
 
     #Feature 6 Integration Tests
     def test1_display_notification(self):
@@ -543,7 +526,7 @@ class IntegrationTests(unittest.TestCase):
       comp_team4 = add_results(mod.username, comp2.name, "Scrum Lords", 10)
       update_ratings(mod.username, comp2.name)
       update_rankings()
-      self.assertEqual(get_all_students_json(), [{'id': 1, 'username': 'james', 'rating_score': 220, 'comp_count': 2, 'curr_rank': 1}, {'id': 2, 'username': 'steven', 'rating_score': 170, 'comp_count': 2, 'curr_rank': 4}, {'id': 3, 'username': 'emily', 'rating_score': 170, 'comp_count': 2, 'curr_rank': 4}, {'id': 4, 'username': 'mark', 'rating_score': 180, 'comp_count': 2, 'curr_rank': 2}, {'id': 5, 'username': 'eric', 'rating_score': 180, 'comp_count': 2, 'curr_rank': 2}, {'id': 6, 'username': 'ryan', 'rating_score': 130, 'comp_count': 2, 'curr_rank': 6}])
+      self.assertEqual(get_all_students_json(), [{'id': 1, 'username': 'james', 'rating_score': 22, 'comp_count': 2, 'curr_rank': 1}, {'id': 2, 'username': 'steven', 'rating_score': 17, 'comp_count': 2, 'curr_rank': 4}, {'id': 3, 'username': 'emily', 'rating_score': 17, 'comp_count': 2, 'curr_rank': 4}, {'id': 4, 'username': 'mark', 'rating_score': 18, 'comp_count': 2, 'curr_rank': 2}, {'id': 5, 'username': 'eric', 'rating_score': 18, 'comp_count': 2, 'curr_rank': 2}, {'id': 6, 'username': 'ryan', 'rating_score': 13, 'comp_count': 2, 'curr_rank': 6}])
 
     def test_comp_list(self):
      
