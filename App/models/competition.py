@@ -10,7 +10,7 @@ class Competition(db.Model):
     name =  db.Column(db.String, nullable=False, unique=True)
     date = db.Column(db.DateTime, default= datetime.utcnow)
     location = db.Column(db.String(120), nullable=False)
-    level = db.Column(db.Float, default=1)
+    level = db.Column(db.Integer, default=1)
     max_score = db.Column(db.Integer, default=25)
     confirm = db.Column(db.Boolean, default=False)
     moderators = db.relationship('Moderator', secondary="competition_moderator", overlaps='competitions', lazy=True)
@@ -53,6 +53,8 @@ class Competition(db.Model):
         try:
             self.teams.append(team)
             team.competitions.append(self)
+            for student in team.students:
+                comp_team.attach(student)
             db.session.commit()
             print(f'{team.name} was added to {self.name}!')
             return comp_team

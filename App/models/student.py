@@ -5,7 +5,7 @@ from .score_manager import *
 class Student(User, ScoreManager):
     __tablename__ = 'student'
 
-    rating_score = db.Column(db.Float, nullable=False, default=0)
+    rating_score = db.Column(db.Integer, nullable=False, default=0)
     comp_count = db.Column(db.Integer, nullable=False, default=0)
     curr_rank = db.Column(db.Integer, nullable=False, default=0)
     prev_rank = db.Column(db.Integer, nullable=False, default=0)
@@ -30,14 +30,13 @@ class Student(User, ScoreManager):
           except Exception as e:
             db.session.rollback()
             return None
-        return None
-
-    
+        return None    
     
     def update(self, message):
-        results = TeamCompetition.query(message)
+        results = CompetitionTeam.query(message)
         if results:
             self.rating_score += results.rating_score
+            self.comp_count += 1
 
     def get_json(self):
         return {

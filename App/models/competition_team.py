@@ -7,8 +7,8 @@ class CompetitionTeam(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     comp_id = db.Column(db.Integer, db.ForeignKey('competition.id'), nullable=False)
     team_id =  db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
-    points_earned = db.Column(db.Float, default=0)
-    rating_score = db.Column(db.Float, default=0)
+    points_earned = db.Column(db.Integer, default=0)
+    rating_score = db.Column(db.Integer, default=0)
     managers = []
 
     def __init__(self, comp_id, team_id):
@@ -23,7 +23,8 @@ class CompetitionTeam(db.Model):
             self.managers.append(manager)
     
     def detach(self, manager: ScoreManager) -> None:
-        self.managers.remove(manager)
+        if manager in self.managers:
+            self.managers.remove(manager)
 
     def notify(self):
         for manager in self.managers:
