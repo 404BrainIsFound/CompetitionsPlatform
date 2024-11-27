@@ -96,11 +96,11 @@ class UnitTests(unittest.TestCase):
     #   ranking.set_points(15)
     #   assert ranking.total_points == 15
 
-    def test_set_ranking(self):
+    def test_update_ranking(self):
       
       ranking = Ranking(1)
-      ranking.set_ranking(1)
-      assert ranking.curr_ranking == 1
+      ranking.update_rankings(12)
+      assert ranking.rank == 12
 
     # def test_previous_ranking(self):
     
