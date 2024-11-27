@@ -1,5 +1,6 @@
 from App.database import db
 from App.models import Moderator, Competition, Team, CompetitionTeam
+from math import ceil
 
 def create_moderator(username, password, email):
     mod = get_moderator_by_username(username)
@@ -94,7 +95,7 @@ def add_results(mod_name, comp_name, team_name, score):
 
                 if comp_team:
                     comp_team.points_earned = score
-                    comp_team.rating_score = (score/comp.max_score) * 20 * comp.level
+                    comp_team.rating_score = int(ceil((score/comp.max_score) * 100 * comp.level))
                     try:
                         db.session.add(comp_team)
                         db.session.commit()
@@ -133,8 +134,7 @@ def update_ratings(mod_name, comp_name):
             team = Team.query.filter_by(id=comp_team.team_id).first()
 
             for stud in team.students:
-                stud.rating_score = (stud.rating_score*stud.comp_count + comp_team.rating_score)/(stud.comp_count+1)
-                stud.comp_count += 1
+                stud.update(comp_team.id)
                 try:
                     db.session.add(stud)
                     db.session.commit()
