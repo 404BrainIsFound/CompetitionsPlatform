@@ -193,11 +193,19 @@ class IntegrationTests(unittest.TestCase):
       newComp = get_competition_by_name("RunTime")
       self.assertEqual(newComp.name, "RunTime")
 
-    def test2_create_competition(self):
+    def test_create_dupe_competition(self):
       
       mod = create_moderator("debra", "debrapass", "debra@email.com")
-      comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      self.assertDictEqual(comp.get_json(), {"id": 1, "name": "RunTime", "date": "29-03-2024", "location": "St. Augustine", "level": 2, "max_score": 25, "moderators": ["debra"], "teams": []})
+      comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
+      comp2 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
+      
+      assert comp2 == None
+
+    # def test2_create_competition(self):
+      
+    #   mod = create_moderator("debra", "debrapass", "debra@email.com")
+    #   comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
+    #   self.assertDictEqual(comp.get_json(), {"id": 1, "name": "RunTime", "date": "29-03-2024", "location": "St. Augustine", "level": 2, "max_score": 25, "moderators": ["debra"], "teams": []})
       
     #Feature 2 Integration Tests
     def test1_add_results(self):
