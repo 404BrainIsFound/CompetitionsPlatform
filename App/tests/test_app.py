@@ -31,129 +31,110 @@ class UnitTests(unittest.TestCase):
 
     #Student Unit Tests
     def test_new_student(self):
-      db.drop_all()
-      db.create_all()
+      
       student = Student("james", "jamespass", "james@email.com")
       assert student.username == "james"
 
     def test_student_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       student = Student("james", "jamespass", "james@email.com")
       self.assertDictEqual(student.get_json(), {"id": None, "username": "james", "rating_score": 0, "comp_count": 0, "curr_rank": 0})
 
     #Moderator Unit Tests
     def test_new_moderator(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = Moderator("robert", "robertpass", "robert@email.com")
       assert mod.username == "robert"
 
     def test_moderator_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = Moderator("robert", "robertpass", "robert@email.com")
       self.assertDictEqual(mod.get_json(), {"id":None, "username": "robert", "competitions": []})
     
     #Team Unit Tests
     def test_new_team(self):
-      db.drop_all()
-      db.create_all()
+      
       team = Team("Scrum Lords")
       assert team.name == "Scrum Lords"
     
     def test_team_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       team = Team("Scrum Lords")
       self.assertDictEqual(team.get_json(), {"id":None, "name":"Scrum Lords", "students": []})
     
     #Competition Unit Tests
     def test_new_competition(self):
-      db.drop_all()
-      db.create_all()
+      
       competition = Competition("RunTime", datetime.strptime("09-02-2024", "%d-%m-%Y"), "St. Augustine", 1, 25)
       assert competition.name == "RunTime" and competition.date.strftime("%d-%m-%Y") == "09-02-2024" and competition.location == "St. Augustine" and competition.level == 1 and competition.max_score == 25
 
     def test_competition_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       competition = Competition("RunTime", datetime.strptime("09-02-2024", "%d-%m-%Y"), "St. Augustine", 1, 25)
       self.assertDictEqual(competition.get_json(), {"id": None, "name": "RunTime", "date": "09-02-2024", "location": "St. Augustine", "level": 1, "max_score": 25, "moderators": [], "teams": []})
     
     #Notification Unit Tests
     def test_new_notification(self):
-      db.drop_all()
-      db.create_all()
+      
       notification = Notification(1, "Ranking changed!")
       assert notification.student_id == 1 and notification.message == "Ranking changed!"
 
     def test_notification_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       notification = Notification(1, "Ranking changed!")
       self.assertDictEqual(notification.get_json(), {"id": None, "student_id": 1, "notification": "Ranking changed!"})
-    """
+    
     #Ranking Unit Tests
     def test_new_ranking(self):
-      db.drop_all()
-      db.create_all()
+      
       ranking = Ranking(1)
       assert ranking.student_id == 1
   
-    def test_set_points(self):
-      db.drop_all()
-      db.create_all()
-      ranking = Ranking(1)
-      ranking.set_points(15)
-      assert ranking.total_points == 15
+    # def test_set_points(self):
+    
+    #   ranking = Ranking(1)
+    #   ranking.set_points(15)
+    #   assert ranking.total_points == 15
 
     def test_set_ranking(self):
-      db.drop_all()
-      db.create_all()
+      
       ranking = Ranking(1)
       ranking.set_ranking(1)
       assert ranking.curr_ranking == 1
 
-    def test_previous_ranking(self):
-      db.drop_all()
-      db.create_all()
-      ranking = Ranking(1)
-      ranking.set_previous_ranking(1)
-      assert ranking.prev_ranking == 1
+    # def test_previous_ranking(self):
+    
+    #   ranking = Ranking(1)
+    #   ranking.set_previous_ranking(1)
+    #   assert ranking.prev_ranking == 1
 
-    def test_ranking_get_json(self):
-      db.drop_all()
-      db.create_all()
-      ranking = Ranking(1)
-      ranking.set_points(15)
-      ranking.set_ranking(1)
-      self.assertDictEqual(ranking.get_json(), {"rank":1, "total points": 15})
-    """
+    # def test_ranking_get_json(self):
+    
+    #   ranking = Ranking(1)
+    #   ranking.set_points(15)
+    #   ranking.set_ranking(1)
+    #   self.assertDictEqual(ranking.get_json(), {"rank":1, "total points": 15})
+    
     #CompetitionTeam Unit Tests
     def test_new_competition_team(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_team = CompetitionTeam(1, 1)
       assert competition_team.comp_id == 1 and competition_team.team_id == 1
 
     def test_competition_team_update_points(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_team = CompetitionTeam(1, 1)
       competition_team.update_points(15)
       assert competition_team.points_earned == 15
 
     def test_competition_team_update_rating(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_team = CompetitionTeam(1, 1)
       competition_team.update_rating(12)
       assert competition_team.rating_score == 12
 
     def test_competition_team_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_team = CompetitionTeam(1, 1)
       competition_team.update_points(15)
       competition_team.update_rating(12)
@@ -161,33 +142,40 @@ class UnitTests(unittest.TestCase):
 
     #CompetitionModerator Unit Tests
     def test_new_competition_moderator(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_moderator = CompetitionModerator(1, 1)
       assert competition_moderator.comp_id == 1 and competition_moderator.mod_id == 1
 
     def test_competition_moderator_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_moderator = CompetitionModerator(1, 1)
       self.assertDictEqual(competition_moderator.get_json(), {"id": None, "competition_id": 1, "moderator_id": 1})
 
     #StudentTeam Unit Tests
     def test_new_student_team(self):
-      db.drop_all()
-      db.create_all()
+      
       student_team = StudentTeam(1, 1)
       assert student_team.student_id == 1 and student_team.team_id == 1
     
     def test_student_team_get_json(self):
-      db.drop_all()
-      db.create_all()
+     
       student_team = StudentTeam(1, 1)
       self.assertDictEqual(student_team.get_json(), {"id": None, "student_id": 1, "team_id": 1})
 
 '''
     Integration Tests
 '''
+
+# This fixture creates an empty database for the test and deletes it after the test
+# scope="class" would execute the fixture once and resued for all methods in the class
+@pytest.fixture(autouse=True, scope="module")
+def empty_db():
+    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
+    create_db()
+    yield app.test_client()
+    db.drop_all()
+
+
 class IntegrationTests(unittest.TestCase):
     
     #Feature 1 Integration Tests
