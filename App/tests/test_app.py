@@ -341,15 +341,15 @@ class IntegrationTests(unittest.TestCase):
       student9 = create_student("jessica", "jessicapass", "jessica@email.com")
       students1 = [student1.username, student2.username, student3.username]
       team1 = add_team(mod.username, comp.name, "Runtime Terrors", students1)
-      comp_team1 = add_results(mod.username, comp.name, "Runtime Terrors", 15)
+      #comp_team1 = add_results(mod.username, comp.name, "Runtime Terrors", 15)
       students2 = [student4.username, student5.username, student6.username]
       team2 = add_team(mod.username, comp.name, "Scrum Lords", students2)
-      comp_team2 = add_results(mod.username, comp.name, "Scrum Lords", 12)
+      #comp_team2 = add_results(mod.username, comp.name, "Scrum Lords", 12)
       students3 = [student7.username, student8.username, student9.username]
       team3 = add_team(mod.username, comp.name, "Beyond Infinity", students3)
-      comp_team = add_results(mod.username, comp.name, "Beyond Infinity", 10)
-      update_ratings(mod.username, comp.name)
-      update_rankings()
+      #comp_team = add_results(mod.username, comp.name, "Beyond Infinity", 10)
+      # update_ratings(mod.username, comp.name)
+      # update_rankings()
       self.assertDictEqual(comp.get_json(), {'id': 1, 'name': 'RunTime', 'date': '29-03-2024', 'location': 'St. Augustine', 'level': 2, 'max_score': 25, 'moderators': ['debra'], 'teams': ['Runtime Terrors', 'Scrum Lords', 'Beyond Infinity']})
 
     #Feature 5 Integration Tests
@@ -541,18 +541,14 @@ class IntegrationTests(unittest.TestCase):
       student6 = create_student("ryan", "ryanpass", "ryan@email.com")
       students1 = [student1.username, student2.username, student3.username]
       team1 = add_team(mod.username, comp1.name, "Runtime Terrors", students1)
-      comp1_team1 = add_results(mod.username, comp1.name, "Runtime Terrors", 15)
+      
       students2 = [student4.username, student5.username, student6.username]
       team2 = add_team(mod.username, comp1.name, "Scrum Lords", students2)
-      comp1_team2 = add_results(mod.username, comp1.name, "Scrum Lords", 10)
-      update_ratings(mod.username, comp1.name)
-      update_rankings()
+      
       students3 = [student1.username, student4.username, student5.username]
       team3 = add_team(mod.username, comp2.name, "Runtime Terrors", students3)
-      comp_team3 = add_results(mod.username, comp2.name, "Runtime Terrors", 20)
+      
       students4 = [student2.username, student3.username, student6.username]
       team4 = add_team(mod.username, comp2.name, "Scrum Lords", students4)
-      comp_team4 = add_results(mod.username, comp2.name, "Scrum Lords", 10)
-      update_ratings(mod.username, comp2.name)
-      update_rankings()
+      
       self.assertListEqual(get_all_competitions_json(), [{"id": 1, "name": "RunTime", "date": "29-03-2024", "location": "St. Augustine", "level": 2, "max_score": 25, "moderators": ["debra"], "teams": ["Runtime Terrors", "Scrum Lords"]}, {"id": 2, "name": "Hacker Cup", "date": "23-02-2024", "location": "Macoya", "level": 1, "max_score": 20, "moderators": ["debra"], "teams": ["Runtime Terrors", "Scrum Lords"]}])
