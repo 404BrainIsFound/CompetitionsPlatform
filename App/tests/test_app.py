@@ -15,44 +15,44 @@ LOGGER = logging.getLogger(__name__)
 class UnitTests(unittest.TestCase):
     #User Unit Tests
     def test_new_user(self):
-        user = User("ryan", "ryanpass")
+        user = User("ryan", "ryanpass", "ryan@email.com")
         assert user.username == "ryan"
 
     def test_hashed_password(self):
         password = "ryanpass"
         hashed = generate_password_hash(password, method='sha256')
-        user = User("ryan", password)
+        user = User("ryan", password, "ryan@email.com")
         assert user.password != password
 
     def test_check_password(self):
         password = "ryanpass"
-        user = User("ryan", password)
+        user = User("ryan", password, "ryan@email.com")
         assert user.check_password(password)
 
     #Student Unit Tests
     def test_new_student(self):
       db.drop_all()
       db.create_all()
-      student = Student("james", "jamespass")
+      student = Student("james", "jamespass", "james@email.com")
       assert student.username == "james"
 
     def test_student_get_json(self):
       db.drop_all()
       db.create_all()
-      student = Student("james", "jamespass")
+      student = Student("james", "jamespass", "james@email.com")
       self.assertDictEqual(student.get_json(), {"id": None, "username": "james", "rating_score": 0, "comp_count": 0, "curr_rank": 0})
 
     #Moderator Unit Tests
     def test_new_moderator(self):
       db.drop_all()
       db.create_all()
-      mod = Moderator("robert", "robertpass")
+      mod = Moderator("robert", "robertpass", "robert@email.com")
       assert mod.username == "robert"
 
     def test_moderator_get_json(self):
       db.drop_all()
       db.create_all()
-      mod = Moderator("robert", "robertpass")
+      mod = Moderator("robert", "robertpass", "robert@email.com")
       self.assertDictEqual(mod.get_json(), {"id":None, "username": "robert", "competitions": []})
     
     #Team Unit Tests
