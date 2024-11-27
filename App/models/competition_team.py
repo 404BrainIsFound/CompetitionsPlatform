@@ -28,7 +28,7 @@ class CompetitionTeam(db.Model):
 
     def notify(self):
         for manager in self.managers:
-            manager.update(id)
+            manager.update(self.id)
 
     def update_points(self, points_earned):
       self.points_earned = points_earned
