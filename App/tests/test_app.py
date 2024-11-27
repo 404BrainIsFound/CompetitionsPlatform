@@ -189,6 +189,12 @@ class IntegrationTests(unittest.TestCase):
         newStudent = create_student("tyrell", "tyrellpass", "tyrell@email.com")
         student = get_student_by_username("tyrell")
         self.assertEqual(student.username, "tyrell")
+
+    
+    def test_create_moderator(self):
+        newMod = create_moderator("debra", "debrapass", "debra@email.com")
+        mod = get_moderator_by_username("debra")
+        self.assertEqual(mod.username, "debra")
         
     
     #Feature 1 Integration Tests
