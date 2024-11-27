@@ -132,6 +132,35 @@
     .closebtn:hover {
         color: black;
     }
+
+    .moderator-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px; /* Space between buttons */
+        margin: 20px 0;
+    }
+
+    .moderator-buttons button {
+        background-color: #9FB1BC;
+        padding: 10px 20px;
+        border-radius: 15px;
+        border: none;
+        font-family: helvetica;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .moderator-buttons button:hover {
+        background-color: #d5d0d0;
+    }
+
+    .moderator-buttons a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+    }
 </style>
 
 {% with messages = get_flashed_messages() %}
@@ -148,9 +177,12 @@
 <div class="header">
     <h4>List of Competitions:</h4>
     {% if session['user_type'] == 'moderator' %}
-    <button class="create-button">
-        <a href="{{url_for('comp_views.create_comp_page')}}" style="color: white">Create Competition</a>
-    </button>
+    <div class = "moderator-buttons">
+        <button class="create-button">
+            <a href="{{url_for('comp_views.create_comp_page')}}" style="color: white">Create Competition</a>
+        </button>
+    </div>
+    
     {% endif %}
 </div>
 
