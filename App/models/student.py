@@ -31,6 +31,8 @@ class Student(User, ScoreManager):
             db.session.rollback()
             return None
         return None
+
+    
     
     def update(self, message):
         results = TeamCompetition.query(message)

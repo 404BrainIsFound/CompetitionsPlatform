@@ -15,145 +15,126 @@ LOGGER = logging.getLogger(__name__)
 class UnitTests(unittest.TestCase):
     #User Unit Tests
     def test_new_user(self):
-        user = User("ryan", "ryanpass")
+        user = User("ryan", "ryanpass", "ryan@email.com")
         assert user.username == "ryan"
 
     def test_hashed_password(self):
         password = "ryanpass"
         hashed = generate_password_hash(password, method='sha256')
-        user = User("ryan", password)
+        user = User("ryan", password, "ryan@email.com")
         assert user.password != password
 
     def test_check_password(self):
         password = "ryanpass"
-        user = User("ryan", password)
+        user = User("ryan", password, "ryan@email.com")
         assert user.check_password(password)
 
     #Student Unit Tests
     def test_new_student(self):
-      db.drop_all()
-      db.create_all()
-      student = Student("james", "jamespass")
+      
+      student = Student("james", "jamespass", "james@email.com")
       assert student.username == "james"
 
     def test_student_get_json(self):
-      db.drop_all()
-      db.create_all()
-      student = Student("james", "jamespass")
+      
+      student = Student("james", "jamespass", "james@email.com")
       self.assertDictEqual(student.get_json(), {"id": None, "username": "james", "rating_score": 0, "comp_count": 0, "curr_rank": 0})
 
     #Moderator Unit Tests
     def test_new_moderator(self):
-      db.drop_all()
-      db.create_all()
-      mod = Moderator("robert", "robertpass")
+      
+      mod = Moderator("robert", "robertpass", "robert@email.com")
       assert mod.username == "robert"
 
     def test_moderator_get_json(self):
-      db.drop_all()
-      db.create_all()
-      mod = Moderator("robert", "robertpass")
+      
+      mod = Moderator("robert", "robertpass", "robert@email.com")
       self.assertDictEqual(mod.get_json(), {"id":None, "username": "robert", "competitions": []})
     
     #Team Unit Tests
     def test_new_team(self):
-      db.drop_all()
-      db.create_all()
+      
       team = Team("Scrum Lords")
       assert team.name == "Scrum Lords"
     
     def test_team_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       team = Team("Scrum Lords")
       self.assertDictEqual(team.get_json(), {"id":None, "name":"Scrum Lords", "students": []})
     
     #Competition Unit Tests
     def test_new_competition(self):
-      db.drop_all()
-      db.create_all()
+      
       competition = Competition("RunTime", datetime.strptime("09-02-2024", "%d-%m-%Y"), "St. Augustine", 1, 25)
       assert competition.name == "RunTime" and competition.date.strftime("%d-%m-%Y") == "09-02-2024" and competition.location == "St. Augustine" and competition.level == 1 and competition.max_score == 25
 
     def test_competition_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       competition = Competition("RunTime", datetime.strptime("09-02-2024", "%d-%m-%Y"), "St. Augustine", 1, 25)
       self.assertDictEqual(competition.get_json(), {"id": None, "name": "RunTime", "date": "09-02-2024", "location": "St. Augustine", "level": 1, "max_score": 25, "moderators": [], "teams": []})
     
     #Notification Unit Tests
     def test_new_notification(self):
-      db.drop_all()
-      db.create_all()
+      
       notification = Notification(1, "Ranking changed!")
       assert notification.student_id == 1 and notification.message == "Ranking changed!"
 
     def test_notification_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       notification = Notification(1, "Ranking changed!")
       self.assertDictEqual(notification.get_json(), {"id": None, "student_id": 1, "notification": "Ranking changed!"})
-    """
+    
     #Ranking Unit Tests
     def test_new_ranking(self):
-      db.drop_all()
-      db.create_all()
+      
       ranking = Ranking(1)
       assert ranking.student_id == 1
   
-    def test_set_points(self):
-      db.drop_all()
-      db.create_all()
-      ranking = Ranking(1)
-      ranking.set_points(15)
-      assert ranking.total_points == 15
+    # def test_set_points(self):
+    
+    #   ranking = Ranking(1)
+    #   ranking.set_points(15)
+    #   assert ranking.total_points == 15
 
-    def test_set_ranking(self):
-      db.drop_all()
-      db.create_all()
+    def test_update_ranking(self):
+      
       ranking = Ranking(1)
-      ranking.set_ranking(1)
-      assert ranking.curr_ranking == 1
+      ranking.update_rankings(12)
+      assert ranking.rank == 12
 
-    def test_previous_ranking(self):
-      db.drop_all()
-      db.create_all()
-      ranking = Ranking(1)
-      ranking.set_previous_ranking(1)
-      assert ranking.prev_ranking == 1
+    # def test_previous_ranking(self):
+    
+    #   ranking = Ranking(1)
+    #   ranking.set_previous_ranking(1)
+    #   assert ranking.prev_ranking == 1
 
-    def test_ranking_get_json(self):
-      db.drop_all()
-      db.create_all()
-      ranking = Ranking(1)
-      ranking.set_points(15)
-      ranking.set_ranking(1)
-      self.assertDictEqual(ranking.get_json(), {"rank":1, "total points": 15})
-    """
+    # def test_ranking_get_json(self):
+    
+    #   ranking = Ranking(1)
+    #   ranking.set_points(15)
+    #   ranking.set_ranking(1)
+    #   self.assertDictEqual(ranking.get_json(), {"rank":1, "total points": 15})
+    
     #CompetitionTeam Unit Tests
     def test_new_competition_team(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_team = CompetitionTeam(1, 1)
       assert competition_team.comp_id == 1 and competition_team.team_id == 1
 
     def test_competition_team_update_points(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_team = CompetitionTeam(1, 1)
       competition_team.update_points(15)
       assert competition_team.points_earned == 15
 
     def test_competition_team_update_rating(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_team = CompetitionTeam(1, 1)
       competition_team.update_rating(12)
       assert competition_team.rating_score == 12
 
     def test_competition_team_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_team = CompetitionTeam(1, 1)
       competition_team.update_points(15)
       competition_team.update_rating(12)
@@ -161,47 +142,54 @@ class UnitTests(unittest.TestCase):
 
     #CompetitionModerator Unit Tests
     def test_new_competition_moderator(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_moderator = CompetitionModerator(1, 1)
       assert competition_moderator.comp_id == 1 and competition_moderator.mod_id == 1
 
     def test_competition_moderator_get_json(self):
-      db.drop_all()
-      db.create_all()
+      
       competition_moderator = CompetitionModerator(1, 1)
       self.assertDictEqual(competition_moderator.get_json(), {"id": None, "competition_id": 1, "moderator_id": 1})
 
     #StudentTeam Unit Tests
     def test_new_student_team(self):
-      db.drop_all()
-      db.create_all()
+      
       student_team = StudentTeam(1, 1)
       assert student_team.student_id == 1 and student_team.team_id == 1
     
     def test_student_team_get_json(self):
-      db.drop_all()
-      db.create_all()
+     
       student_team = StudentTeam(1, 1)
       self.assertDictEqual(student_team.get_json(), {"id": None, "student_id": 1, "team_id": 1})
 
 '''
     Integration Tests
 '''
+
+# This fixture creates an empty database for the test and deletes it after the test
+# scope="class" would execute the fixture once and resued for all methods in the class
+@pytest.fixture(autouse=True, scope="module")
+def empty_db():
+    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
+    create_db()
+    yield app.test_client()
+    db.drop_all()
+
+
 class IntegrationTests(unittest.TestCase):
     
     #Feature 1 Integration Tests
     def test1_create_competition(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       assert comp.name == "RunTime" and comp.date.strftime("%d-%m-%Y") == "29-03-2024" and comp.location == "St. Augustine" and comp.level == 2 and comp.max_score == 25
 
     def test2_create_competition(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       self.assertDictEqual(comp.get_json(), {"id": 1, "name": "RunTime", "date": "29-03-2024", "location": "St. Augustine", "level": 2, "max_score": 25, "moderators": ["debra"], "teams": []})
       
@@ -209,11 +197,11 @@ class IntegrationTests(unittest.TestCase):
     def test1_add_results(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
       students = [student1.username, student2.username, student3.username]
       team = add_team(mod.username, comp.name, "Runtime Terrors", students)
       comp_team = add_results(mod.username, comp.name, "Runtime Terrors", 15)
@@ -222,13 +210,13 @@ class IntegrationTests(unittest.TestCase):
     def test2_add_results(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
-      student4 = create_student("mark", "markpass")
-      student5 = create_student("eric", "ericpass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
       students = [student1.username, student2.username, student3.username]
       add_team(mod.username, comp.name, "Runtime Terrors", students)
       comp_team = add_results(mod.username, comp.name, "Runtime Terrors", 15)
@@ -239,12 +227,12 @@ class IntegrationTests(unittest.TestCase):
     def test3_add_results(self):
       db.drop_all()
       db.create_all()
-      mod1 = create_moderator("debra", "debrapass")
-      mod2 = create_moderator("robert", "robertpass")
+      mod1 = create_moderator("debra", "debrapass", "debra@email.com")
+      mod2 = create_moderator("robert", "robertpass", "robert@email.com")
       comp = create_competition(mod1.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
       students = [student1.username, student2.username, student3.username]
       team = add_team(mod2.username, comp.name, "Runtime Terrors", students)
       assert team == None
@@ -253,33 +241,33 @@ class IntegrationTests(unittest.TestCase):
     def test_display_student_info(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
       students = [student1.username, student2.username, student3.username]
       team = add_team(mod.username, comp.name, "Runtime Terrors", students)
       comp_team = add_results(mod.username, comp.name, "Runtime Terrors", 15)
       update_ratings(mod.username, comp.name)
       update_rankings()
-      self.assertDictEqual(display_student_info("james"), {"profile": {'id': 1, 'username': 'james', 'rating_score': 24.0, 'comp_count': 1, 'curr_rank': 1}, "competitions": ['RunTime']})
+      self.assertDictEqual(display_student_info("james"), {"profile": {'id': 1, 'username': 'james', 'rating_score': 24.0, 'comp_count': 1, 'curr_rank': 1}, "competitions": [{'name': 'RunTime', 'points_earned': 15.0, 'rating_score': 24.0, 'team': 'Runtime Terrors'}]})
 
     #Feature 4 Integration Tests
     def test_display_competition(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
-      student4 = create_student("mark", "markpass")
-      student5 = create_student("eric", "ericpass")
-      student6 = create_student("ryan", "ryanpass")
-      student7 = create_student("isabella", "isabellapass")
-      student8 = create_student("richard", "richardpass")
-      student9 = create_student("jessica", "jessicapass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
+      student6 = create_student("ryan", "ryanpass", "ryan@email.com")
+      student7 = create_student("isabella", "isabellapass", "isabella@email.com")
+      student8 = create_student("richard", "richardpass", "richard@email.com")
+      student9 = create_student("jessica", "jessicapass", "jessica@email.com")
       students1 = [student1.username, student2.username, student3.username]
       team1 = add_team(mod.username, comp.name, "Runtime Terrors", students1)
       comp_team1 = add_results(mod.username, comp.name, "Runtime Terrors", 15)
@@ -297,14 +285,14 @@ class IntegrationTests(unittest.TestCase):
     def test_display_rankings(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
-      student4 = create_student("mark", "markpass")
-      student5 = create_student("eric", "ericpass")
-      student6 = create_student("ryan", "ryanpass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
+      student6 = create_student("ryan", "ryanpass", "ryan@email.com")
       students1 = [student1.username, student2.username, student3.username]
       team1 = add_team(mod.username, comp.name, "Runtime Terrors", students1)
       comp_team1 = add_results(mod.username, comp.name, "Runtime Terrors", 15)
@@ -319,14 +307,14 @@ class IntegrationTests(unittest.TestCase):
     def test1_display_notification(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
-      student4 = create_student("mark", "markpass")
-      student5 = create_student("eric", "ericpass")
-      student6 = create_student("ryan", "ryanpass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
+      student6 = create_student("ryan", "ryanpass", "ryan@email.com")
       students1 = [student1.username, student2.username, student3.username]
       team1 = add_team(mod.username, comp.name, "Runtime Terrors", students1)
       comp_team1 = add_results(mod.username, comp.name, "Runtime Terrors", 15)
@@ -340,15 +328,15 @@ class IntegrationTests(unittest.TestCase):
     def test2_display_notification(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 30)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
-      student4 = create_student("mark", "markpass")
-      student5 = create_student("eric", "ericpass")
-      student6 = create_student("ryan", "ryanpass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
+      student6 = create_student("ryan", "ryanpass", "ryan@email.com")
       students1 = [student1.username, student2.username, student3.username]
       team1 = add_team(mod.username, comp1.name, "Runtime Terrors", students1)
       comp1_team1 = add_results(mod.username, comp1.name, "Runtime Terrors", 15)
@@ -370,15 +358,15 @@ class IntegrationTests(unittest.TestCase):
     def test3_display_notification(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 20)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
-      student4 = create_student("mark", "markpass")
-      student5 = create_student("eric", "ericpass")
-      student6 = create_student("ryan", "ryanpass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
+      student6 = create_student("ryan", "ryanpass", "ryan@email.com")
       students1 = [student1.username, student2.username, student3.username]
       team1 = add_team(mod.username, comp1.name, "Runtime Terrors", students1)
       comp1_team1 = add_results(mod.username, comp1.name, "Runtime Terrors", 15)
@@ -400,15 +388,15 @@ class IntegrationTests(unittest.TestCase):
     def test4_display_notification(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 20)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
-      student4 = create_student("mark", "markpass")
-      student5 = create_student("eric", "ericpass")
-      student6 = create_student("ryan", "ryanpass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
+      student6 = create_student("ryan", "ryanpass", "ryan@email.com")
       students1 = [student1.username, student2.username, student3.username]
       team1 = add_team(mod.username, comp1.name, "Runtime Terrors", students1)
       comp1_team1 = add_results(mod.username, comp1.name, "Runtime Terrors", 15)
@@ -431,32 +419,32 @@ class IntegrationTests(unittest.TestCase):
     def test1_add_mod(self):
       db.drop_all()
       db.create_all()
-      mod1 = create_moderator("debra", "debrapass")
-      mod2 = create_moderator("robert", "robertpass")
+      mod1 = create_moderator("debra", "debrapass", "debra@email.com")
+      mod2 = create_moderator("robert", "robertpass", "robert@email.com")
       comp = create_competition(mod1.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       assert add_mod(mod1.username, comp.name, mod2.username) != None
        
     def test2_add_mod(self):
       db.drop_all()
       db.create_all()
-      mod1 = create_moderator("debra", "debrapass")
-      mod2 = create_moderator("robert", "robertpass")
-      mod3 = create_moderator("raymond", "raymondpass")
+      mod1 = create_moderator("debra", "debrapass", "debra@email.com")
+      mod2 = create_moderator("robert", "robertpass", "robert@email.com")
+      mod3 = create_moderator("raymond", "raymondpass", "raymond@email.com")
       comp = create_competition(mod1.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       assert add_mod(mod2.username, comp.name, mod3.username) == None
     
     def test_student_list(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 20)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
-      student4 = create_student("mark", "markpass")
-      student5 = create_student("eric", "ericpass")
-      student6 = create_student("ryan", "ryanpass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
+      student6 = create_student("ryan", "ryanpass", "ryan@email.com")
       students1 = [student1.username, student2.username, student3.username]
       team1 = add_team(mod.username, comp1.name, "Runtime Terrors", students1)
       comp1_team1 = add_results(mod.username, comp1.name, "Runtime Terrors", 15)
@@ -478,15 +466,15 @@ class IntegrationTests(unittest.TestCase):
     def test_comp_list(self):
       db.drop_all()
       db.create_all()
-      mod = create_moderator("debra", "debrapass")
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 20)
-      student1 = create_student("james", "jamespass")
-      student2 = create_student("steven", "stevenpass")
-      student3 = create_student("emily", "emilypass")
-      student4 = create_student("mark", "markpass")
-      student5 = create_student("eric", "ericpass")
-      student6 = create_student("ryan", "ryanpass")
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
+      student6 = create_student("ryan", "ryanpass", "ryan@email.com")
       students1 = [student1.username, student2.username, student3.username]
       team1 = add_team(mod.username, comp1.name, "Runtime Terrors", students1)
       comp1_team1 = add_results(mod.username, comp1.name, "Runtime Terrors", 15)
