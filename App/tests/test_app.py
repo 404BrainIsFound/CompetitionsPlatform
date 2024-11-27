@@ -245,7 +245,30 @@ class IntegrationTests(unittest.TestCase):
       team = add_team(mod.username, comp.name, "Runtime Terrors", students)
       comp_team = add_results(mod.username, comp.name, "Runtime Terrors", 15)
       assert comp_team.points_earned == 15
-    
+
+    def test_display_competition_results(self):
+
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
+      comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
+      student6 = create_student("ryan", "ryanpass", "ryan@email.com")
+      student7 = create_student("isabella", "isabellapass", "isabella@email.com")
+      student8 = create_student("richard", "richardpass", "richard@email.com")
+      student9 = create_student("jessica", "jessicapass", "jessica@email.com")
+      students1 = [student1.username, student2.username, student3.username]
+      team1 = add_team(mod.username, comp.name, "Runtime Terrors", students1)
+      comp_team1 = add_results(mod.username, comp.name, "Runtime Terrors", 15)
+      students2 = [student4.username, student5.username, student6.username]
+      team2 = add_team(mod.username, comp.name, "Scrum Lords", students2)
+      comp_team2 = add_results(mod.username, comp.name, "Scrum Lords", 12)
+      students3 = [student7.username, student8.username, student9.username]
+      team3 = add_team(mod.username, comp.name, "Beyond Infinity", students3)
+      comp_team = add_results(mod.username, comp.name, "Beyond Infinity", 10)
+      self.assertListEqual(display_competition_results(comp.name), [{"placement": 1 , "team": "Runtime Terrors", "members" : ['james', 'steven', 'emily'], "score": 15.0}, {"placement": 2 , "team": "Scrum Lords", "members" : ['mark', 'eric', 'ryan'], "score": 12.0}, {"placement": 3 , "team": "Beyond Infinity", "members" : ['isabella', 'richard', 'jessica'], "score": 10.0}, ])
 
     def test1_add_team(self):
       
@@ -371,7 +394,7 @@ class IntegrationTests(unittest.TestCase):
       update_rankings()
       self.assertDictEqual(display_notifications("james"), {"notifications": [{"ID": 1, "Notification": "RANK : 1. Congratulations on your first rank!"}]})
 
-    def test2_display_notification(self):
+    def test2_display_notification_rank_retained(self):
       
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
@@ -400,7 +423,7 @@ class IntegrationTests(unittest.TestCase):
       update_rankings()
       self.assertDictEqual(display_notifications("james"), {"notifications": [{"ID": 1, "Notification": "RANK : 1. Congratulations on your first rank!"}, {"ID": 7, "Notification": "RANK : 1. Well done! You retained your rank."}]})
 
-    def test3_display_notification(self):
+    def test3_display_notification_rank_down(self):
       
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
@@ -429,7 +452,7 @@ class IntegrationTests(unittest.TestCase):
       update_rankings()
       self.assertDictEqual(display_notifications("steven"), {"notifications": [{"ID": 2, "Notification": "RANK : 1. Congratulations on your first rank!"}, {"ID": 10, "Notification": "RANK : 4. Oh no! Your rank has went down."}]})
 
-    def test4_display_notification(self):
+    def test4_display_notification_rank_up(self):
       
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
