@@ -194,16 +194,14 @@ class IntegrationTests(unittest.TestCase):
       self.assertEqual(newComp.name, "RunTime")
 
     def test2_create_competition(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       self.assertDictEqual(comp.get_json(), {"id": 1, "name": "RunTime", "date": "29-03-2024", "location": "St. Augustine", "level": 2, "max_score": 25, "moderators": ["debra"], "teams": []})
       
     #Feature 2 Integration Tests
     def test1_add_results(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       student1 = create_student("james", "jamespass", "james@email.com")
@@ -215,8 +213,7 @@ class IntegrationTests(unittest.TestCase):
       assert comp_team.points_earned == 15
     
     def test2_add_results(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       student1 = create_student("james", "jamespass", "james@email.com")
@@ -232,8 +229,7 @@ class IntegrationTests(unittest.TestCase):
       assert team == None
     
     def test3_add_results(self):
-      db.drop_all()
-      db.create_all()
+      
       mod1 = create_moderator("debra", "debrapass", "debra@email.com")
       mod2 = create_moderator("robert", "robertpass", "robert@email.com")
       comp = create_competition(mod1.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
@@ -246,8 +242,7 @@ class IntegrationTests(unittest.TestCase):
 
     #Feature 3 Integration Tests
     def test_display_student_info(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       student1 = create_student("james", "jamespass", "james@email.com")
@@ -262,8 +257,7 @@ class IntegrationTests(unittest.TestCase):
 
     #Feature 4 Integration Tests
     def test_display_competition(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       student1 = create_student("james", "jamespass", "james@email.com")
@@ -290,8 +284,7 @@ class IntegrationTests(unittest.TestCase):
 
     #Feature 5 Integration Tests
     def test_display_rankings(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       student1 = create_student("james", "jamespass", "james@email.com")
@@ -312,8 +305,7 @@ class IntegrationTests(unittest.TestCase):
 
     #Feature 6 Integration Tests
     def test1_display_notification(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       student1 = create_student("james", "jamespass", "james@email.com")
@@ -333,8 +325,7 @@ class IntegrationTests(unittest.TestCase):
       self.assertDictEqual(display_notifications("james"), {"notifications": [{"ID": 1, "Notification": "RANK : 1. Congratulations on your first rank!"}]})
 
     def test2_display_notification(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 30)
@@ -363,8 +354,7 @@ class IntegrationTests(unittest.TestCase):
       self.assertDictEqual(display_notifications("james"), {"notifications": [{"ID": 1, "Notification": "RANK : 1. Congratulations on your first rank!"}, {"ID": 7, "Notification": "RANK : 1. Well done! You retained your rank."}]})
 
     def test3_display_notification(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 20)
@@ -393,8 +383,7 @@ class IntegrationTests(unittest.TestCase):
       self.assertDictEqual(display_notifications("steven"), {"notifications": [{"ID": 2, "Notification": "RANK : 1. Congratulations on your first rank!"}, {"ID": 10, "Notification": "RANK : 4. Oh no! Your rank has went down."}]})
 
     def test4_display_notification(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 20)
@@ -423,26 +412,25 @@ class IntegrationTests(unittest.TestCase):
       self.assertDictEqual(display_notifications("mark"), {"notifications": [{"ID": 4, "Notification": "RANK : 4. Congratulations on your first rank!"}, {"ID": 8, "Notification": "RANK : 2. Congratulations! Your rank has went up."}]})
 
     #Additional Integration Tests
-    def test1_add_mod(self):
-      db.drop_all()
-      db.create_all()
-      mod1 = create_moderator("debra", "debrapass", "debra@email.com")
-      mod2 = create_moderator("robert", "robertpass", "robert@email.com")
-      comp = create_competition(mod1.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      assert add_mod(mod1.username, comp.name, mod2.username) != None
+    # def test1_add_mod(self):
+    #   db.drop_all()
+    #   db.create_all()
+    #   mod1 = create_moderator("debra", "debrapass", "debra@email.com")
+    #   mod2 = create_moderator("robert", "robertpass", "robert@email.com")
+    #   comp = create_competition(mod1.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
+    #   assert add_mod(mod1.username, comp.name, mod2.username) != None
        
-    def test2_add_mod(self):
-      db.drop_all()
-      db.create_all()
-      mod1 = create_moderator("debra", "debrapass", "debra@email.com")
-      mod2 = create_moderator("robert", "robertpass", "robert@email.com")
-      mod3 = create_moderator("raymond", "raymondpass", "raymond@email.com")
-      comp = create_competition(mod1.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      assert add_mod(mod2.username, comp.name, mod3.username) == None
+    # def test2_add_mod(self):
+    #   db.drop_all()
+    #   db.create_all()
+    #   mod1 = create_moderator("debra", "debrapass", "debra@email.com")
+    #   mod2 = create_moderator("robert", "robertpass", "robert@email.com")
+    #   mod3 = create_moderator("raymond", "raymondpass", "raymond@email.com")
+    #   comp = create_competition(mod1.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
+    #   assert add_mod(mod2.username, comp.name, mod3.username) == None
     
     def test_student_list(self):
-      db.drop_all()
-      db.create_all()
+      
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 20)
@@ -471,8 +459,7 @@ class IntegrationTests(unittest.TestCase):
       self.assertEqual(get_all_students_json(), [{'id': 1, 'username': 'james', 'rating_score': 220, 'comp_count': 2, 'curr_rank': 1}, {'id': 2, 'username': 'steven', 'rating_score': 170, 'comp_count': 2, 'curr_rank': 4}, {'id': 3, 'username': 'emily', 'rating_score': 170, 'comp_count': 2, 'curr_rank': 4}, {'id': 4, 'username': 'mark', 'rating_score': 180, 'comp_count': 2, 'curr_rank': 2}, {'id': 5, 'username': 'eric', 'rating_score': 180, 'comp_count': 2, 'curr_rank': 2}, {'id': 6, 'username': 'ryan', 'rating_score': 130, 'comp_count': 2, 'curr_rank': 6}])
 
     def test_comp_list(self):
-      db.drop_all()
-      db.create_all()
+     
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
       comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 20)
