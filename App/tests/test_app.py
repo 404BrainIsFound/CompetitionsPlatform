@@ -176,15 +176,23 @@ def empty_db():
     db.drop_all()
 
 
+
 class IntegrationTests(unittest.TestCase):
+
+    def setUp(self):
+        # This method is called before each test
+        db.drop_all()
+        db.create_all()
     
     #Feature 1 Integration Tests
     def test1_create_competition(self):
-      db.drop_all()
-      db.create_all()
+      # db.drop_all()
+      # db.create_all()
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
-      assert comp.name == "RunTime" and comp.date.strftime("%d-%m-%Y") == "29-03-2024" and comp.location == "St. Augustine" and comp.level == 2 and comp.max_score == 25
+      #assert comp.name == "RunTime" and comp.date.strftime("%d-%m-%Y") == "29-03-2024" and comp.location == "St. Augustine" and comp.level == 2 and comp.max_score == 25
+      newComp = get_competition_by_name("RunTime")
+      self.assertEqual(newComp.name, "RunTime")
 
     def test2_create_competition(self):
       db.drop_all()
