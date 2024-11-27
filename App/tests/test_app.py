@@ -234,7 +234,7 @@ class IntegrationTests(unittest.TestCase):
     #Feature 2 Integration Tests
     
 
-    def test1_add_results(self):
+    def test_add_results(self):
       
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
@@ -246,7 +246,20 @@ class IntegrationTests(unittest.TestCase):
       comp_team = add_results(mod.username, comp.name, "Runtime Terrors", 15)
       assert comp_team.points_earned == 15
     
-    def test2_add_results(self):
+
+    def test1_add_team(self):
+      
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
+      comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      students = [student1.username, student2.username, student3.username]
+      newteam = create_team("Runtime Terrors", students)
+      team = add_team(mod.username, comp.name, "Runtime Terrors", students)
+      self.assertIn("Runtime Terrors", [t.name for t in comp.teams])
+    
+    def test2_add_team(self):
       
       mod = create_moderator("debra", "debrapass", "debra@email.com")
       comp = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
@@ -262,7 +275,7 @@ class IntegrationTests(unittest.TestCase):
       team = add_team(mod.username, comp.name, "Scrum Lords", students)
       assert team == None
     
-    def test3_add_results(self):
+    def test3_add_team(self):
       
       mod1 = create_moderator("debra", "debrapass", "debra@email.com")
       mod2 = create_moderator("robert", "robertpass", "robert@email.com")
