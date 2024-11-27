@@ -5,98 +5,212 @@
 {{ super() }}
 
 {% block content %}
-
 <style>
-
-    *{
-        /* margin: 0px; */
-        padding: 0px;
-        box-sizing: border-box;
-        /* font-family: sans-serif; */
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 2.5fr));
+        gap: 30px;
+        padding: 30px;
     }
 
-    .competitions-card{
+    .flip-card {
+        background-color: transparent;
+        width: 100%;
+        height: 300px; /* Fixed height for uniform card size */
+        perspective: 1000px;
+        border-radius: 8px;
+        /* overflow: hidden; Ensures consistent border-radius */
+    }
+
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 8px; /* Match border-radius to the parent */
+    }
+
+    .flip-card-front {
+        background-color: #9FB1BC;
+        font-family: 'Times New Roman', Times, serif;
+        color: white;
+        font-weight: bold;
+        font-size: 1.5em;
+        box-shadow: 0 0 0 transparent; /* Remove shadow on the front */
+    }
+
+    .flip-card-back {
+        background-color: #9FB1BC;
+        color: white;
+        transform: rotateY(180deg);
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        border-radius: 8px; /* Ensure smooth edges when flipped */
+    }
+
+    /* Remove underlines in links */
+    .flip-card-back a {
+        color: white; /* Keeps the text white */
+        text-decoration: none; /* Removes underline */
+    }
+
+    .flip-card-back a:hover {
+        text-decoration: none; /* Prevents underline on hover */
+        color: white; /* Optional hover color for better visibility */
+    }
+
+    .flip-card-back p {
+        margin: 5px 0;
+    }
+
+    .header {
+        text-align: center;
+        margin: 20px 0;
+        color: white;
+    }
+
+    .header h2 {
+        margin: 0;
+    }
+
+    .create-button {
+        padding: 10px 20px;
+        background-color: #9FB1BC;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 1em;
+        margin: 20px auto;
+        display: inline-block;
+    }
+
+    .create-button:hover {
+        background-color: #9FB1BC;
+    }
+
+    .alert {
+        padding: 20px;
+        background-color: #E2C044; /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    /* The close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* When moving the mouse over the close button */
+    .closebtn:hover {
+        color: black;
+    }
+
+    .moderator-buttons {
         display: flex;
         justify-content: center;
-        flex-wrap: wrap;
-        /* margin-top: 100px; */
+        align-items: center;
+        gap: 20px; /* Space between buttons */
+        margin: 20px 0;
     }
 
-    .card{
-        width: 325px;
-        /* background-color: #f0f0f0; */
-        /* border: 1px solid #ccc; */
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-        margin: 20px;
-        padding: 16px;
-        color: black;
-        transition: box-shadow 0.3s;
-       /*  font-size: 28px;
-        margin-bottom: 8px; */
+    .moderator-buttons button {
+        background-color: #9FB1BC;
+        padding: 10px 20px;
+        border-radius: 15px;
+        border: none;
+        font-family: helvetica;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
-    .card:hover {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    .moderator-buttons button:hover {
+        background-color: #d5d0d0;
     }
 
-    .card a {
+    .moderator-buttons a {
         text-decoration: none;
-        color: black;
-        display: block;
+        color: white;
+        font-weight: bold;
     }
-
-/*     .card p{
-        color: #666;
-        font-size: 15px;
-        line-height: 1.3;
-    } */
-
 </style>
-<div style="display: flex;">
-    <div>
-        <center><h2 style="margin-left: 50px; color: white;">Competitions</h2></center>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
     </div>
+    {% endif %}
+{% endwith %}
+
+<div class="header">
+    <h4>List of Competitions:</h4>
     {% if session['user_type'] == 'moderator' %}
-    <div>
-        <button type="button" style="padding: 5px; margin-left: 50px; margin-top: 50px; background-color: black; height: 35px; border-radius: 15px; font-family: helvetica;">
-            <a style="color: white;" href="{{url_for('comp_views.create_comp_page')}}">Create Competition</a>
+    <div class = "moderator-buttons">
+        <button class="create-button">
+            <a href="{{url_for('comp_views.create_comp_page')}}" style="color: white">Create Competition</a>
         </button>
     </div>
+    
     {% endif %}
 </div>
 
-
-<div class="competitions-card">
-    
-    {% for competition in competitions[::-1] %}
-        
-        <div class="card" style="background-color: black; color: white; font-family: helvetica;">
+<div class="container">
+    {% for competition in competitions %}
+    <div class="flip-card">
+        <div class="flip-card-inner">
             <a style="color: white;" href="{{url_for('comp_views.competition_details', id=competition.id)}}">
-                <center>
-                    <div style="padding-bottom: 15px; padding-top: 10px; outline: solid white; background-color: #343A40;">
-                        <h3 style="color: white; font-family: optima;">{{competition.name}}</h3>
-                    </div>
-                </center>
-                <div>
-                    <p><strong>Date: </strong>{{competition.date.strftime("%d %B %Y")}}</p>
-                    <p><strong>Location: </strong>{{competition.location}}</p>
-                    <p><strong>Level: </strong>{{competition.level}}</p>
-                    <p><strong>Max Score: </strong>{{competition.max_score}}</p>
-                    <p><strong>Moderators: </strong>
+                <div class="flip-card-front">
+                    <h3>{{competition.name}}</h3>
+                </div>
+                <div class="flip-card-back">
+                    <p><strong>Date:</strong> {{competition.date.strftime("%d %B %Y")}}</p>
+                    <p><strong>Location:</strong> {{competition.location}}</p>
+                    <p><strong>Level:</strong> {{competition.level}}</p>
+                    <p><strong>Max Score:</strong> {{competition.max_score}}</p>
+                    <p><strong>Moderators:</strong></p>
                     {% for moderator in competition.moderators %}
-                        <a style="color: white" href="{{url_for('index_views.moderator_profile', id=moderator.id)}}">
-                            <p>{{moderator.username}}</p>
-                        </a>
+                        <p>{{ loop.index }}) 
+                            <a href="{{url_for('index_views.moderator_profile', id=moderator.id)}}">
+                                {{moderator.username}}
+                            </a>
+                        </p>
                     {% endfor %}
-                    </p> 
                 </div>
             </a>
         </div>
-    
+    </div>
     {% endfor %}
-
 </div>
- 
 {% endblock %}

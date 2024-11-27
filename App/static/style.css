@@ -3,7 +3,7 @@
 }*/
 
 body {
-    background-color: #343A40;/*background-image: linear-gradient(#61677A, #000000);*/
+    background-color: #6E8898;/*background-image: linear-gradient(#61677A, #000000); Note - changed to match option 4*/
 }
 
 h2 {
@@ -18,3 +18,25 @@ h5 {
 @media only screen and (max-width: 700px) {
     
 }
+
+/*For custom scrollbar:*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }

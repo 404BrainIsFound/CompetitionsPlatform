@@ -5,38 +5,135 @@
 {{ super() }}
 
 {% block content %}
-<center><h2 style="color: white;">Competition Results</h2></center>
+<style>
+  .results-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #9FB1BC;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      font-family: 'Arial', sans-serif;
+  }
 
-<main class="container" style="padding: 15px; background-color: black; border-radius: 25px;">
-    <form name="addForm" class="card" method="POST" action="{{ url_for('comp_views.add_competition_results', comp_name=competition.name) }}" style="background-color: black; font-family: helvetica;">
-        <div class="card-content">
-            <span style="color: white; font-family: optima;" class="card-title">Enter competition results</span>
-            <div class="input-field">
-                <input style="color: white;" type="text" name="team_name" placeholder="Enter Team Name" class="validate" required>
-                <label for="team_name">Team Name</label>
-            </div>
-            <div class="input-field">
-                <input style="color: white;" type="text" name="student1" placeholder="Enter Student Name" class="validate" required>
-                <label for="team_name">Student 1</label>
-            </div>
-            <div class="input-field">
-                <input style="color: white;" type="text" name="student2" placeholder="Enter Student Name" class="validate" required>
-                <label for="team_name">Student 2</label>
-            </div>
-            <div class="input-field">
-                <input style="color: white;" type="text" name="student3" placeholder="Enter Student Name" class="validate" required>
-                <label for="team_name">Student 3</label>
-            </div>
-            <div class="input-field">
-                <input style="color: white;" type="number" name="score" placeholder="Enter Score" class="validate" required>
-                <label for="score">Score</label>
-            </div>
+  .results-header {
+      text-align: center;
+      margin-bottom: 20px;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+  }
+
+  .form-group {
+      margin-bottom: 15px;
+  }
+
+  .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+  }
+
+  .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      background-color: white;
+  }
+
+  .form-group input:focus {
+      border-color: #6E8898;
+      outline: none;
+      box-shadow: 0 0 5px rgba(110, 136, 152, 0.5);
+  }
+
+  .form-actions {
+      text-align: center;
+      margin-top: 20px;
+  }
+
+  .form-actions button {
+      padding: 10px 20px;
+      background-color: #6E8898;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+
+  .form-actions button:hover {
+      background-color: #58727E;
+  }
+  .alert {
+        padding: 20px;
+        background-color: #E2C044; /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    /* The close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* When moving the mouse over the close button */
+    .closebtn:hover {
+        color: black;
+    }
+</style>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}
+ 
+
+
+<div class="results-container">
+    <h2 class="results-header">Competition Results</h2>
+    <form name="addForm" method="POST" action="{{ url_for('comp_views.add_competition_results', comp_name=competition.name) }}">
+        <div class="form-group">
+            <label for="team_name">Team Name:</label>
+            <input type="text" id="team_name" name="team_name"  class="validate" required>
         </div>
-        <div class="card-action">
-            <div class="col s12">
-                <input style="background-color: #343A40; border-radius: 25px;" type="submit" class="btn right" value="Upload Results">
-            </div>
+        <div class="form-group">
+            <label for="student1">Student 1:</label>
+            <input type="text" id="student1" name="student1"  class="validate" required>
+        </div>
+        <div class="form-group">
+            <label for="student2">Student 2:</label>
+            <input type="text" id="student2" name="student2"   class="validate" required>
+        </div>
+        <div class="form-group">
+            <label for="student3">Student 3:</label>
+            <input type="text" id="student3" name="student3"  class="validate" required>
+        </div>
+        <div class="form-group">
+            <label for="score">Score:</label>
+            <input type="number" id="score" name="score"  class="validate" required>
+        </div>
+        <div class="form-actions">
+            <button type="submit">Upload Results</button>
         </div>
     </form>
-</main>
+</div>
 {% endblock %}

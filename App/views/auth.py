@@ -85,7 +85,7 @@ def login():
             if request.form['username'] == student.username and student.check_password(request.form['password']):
                 login_user(student)
                 session['user_type'] = 'student'
-                #flash("Login successful!", category='success')
+                flash("Login successful!", category='success')
                 return render_template('leaderboard.html', leaderboard=display_rankings(), user=current_user)
             #else:
             #flash("Invalid Credentials!", category='error')
@@ -95,7 +95,7 @@ def login():
             if request.form['username'] == moderator.username and moderator.check_password(request.form['password']):
                 login_user(moderator)
                 session['user_type'] = 'moderator'
-                #flash("Login successful!", category='success')
+                flash("Login successful!", category='success')
                 return render_template('leaderboard.html', leaderboard=display_rankings(), user=current_user)
             #else:
             #flash("Invalid Credentials!", category='error')
@@ -122,7 +122,7 @@ def signup():
             #flash('Username not available!', category="error")
             #return jsonify({'message': 'Username already used!'})
             if request.form['username'] == student.username:
-            #flash('Account created successfully!', category="success")
+                flash('Account created successfully!', category="success")
                 login_user(student)
                 session['user_type'] = 'student'
                 return render_template('leaderboard.html', leaderboard=display_rankings(), user=current_user)#, competitions=get_all_competitions())

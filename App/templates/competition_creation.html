@@ -5,44 +5,102 @@
 {{ super() }}
 
 {% block content %}
-<center>
-  <h2 style="color: white;">Competition Registration</h2>
-</center>
+<style>
+  .create-competition-container {
+      width: 50%;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #9FB1BC;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      font-family: 'Arial', sans-serif;
+  }
 
-<main class="container" style="padding: 15px; background-color: black; border-radius: 25px;">
-  <form name="addForm" class="card" method="POST" action="/createcompetition" style="background-color: black; color: white;">
-    <div class="card-content" style="font-family: helvetica;">
-      <span class="card-title" style="font-family: optima;">Create Competition</span>
-        <div class="input-field">
-          <input style="color: white;" type="text" name="name" placeholder="Enter Comp Name" class="materialize-textarea" required>
-          <label for="name">Competition Name</label>
-        </div>
-        <div class="input-field">
-          <input style="color: white;" type="date" name="date" style="color: white;" required>
-          <label for="date">Competition Date</label>
-        </div>
-        <div class="input-field">
-            <input style="color: white;" type="text" name="location" placeholder="Enter Comp Location" class="materialize-textarea" required>
-            <label for="location">Competition Location</label>
-        </div>
-        <div class="input-field">
-            <input style="color: white;" type="number" name="level" placeholder="Enter Comp Level" min="1" max="5">
-            <label for="level">Competition Level</label>
-        </div>
-        <div class="input-field">
-            <input style="color: white;" type="text" name="max_score" placeholder="Enter Max Value" class="materialize-textarea" required>
-            <label for="max_score">Competition Max Value</label>
-          </div>
+  .create-competition-header {
+      text-align: center;
+      margin-bottom: 26px;
+      margin-top: 26px;
+      color: white;
+      font-family: sans-serif;
+      font-size: 32px;
+  }
 
-    </div>
-    <div class="card-actions">
-        <div class="row">
-          <div class="col s12">
-            <input style="background-color: #343A40; border-radius: 25px;" type="submit" class="btn right" value="Create Competition">
-          </div>
-        </div>
-    </div>
-  </form>
-</main>
+  .form-group {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+  }
 
+  .form-group label {
+      margin-bottom: 5px;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+  }
+
+  .form-group input,
+  .form-group select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+      border-color: #6E8898;
+      outline: none;
+      box-shadow: 0 0 5px rgba(110, 136, 152, 0.5);
+  }
+
+  .form-actions {
+      text-align: center;
+      margin-top: 20px;
+  }
+
+  .form-actions button {
+      padding: 10px 20px;
+      background-color: #6E8898;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  }
+
+  .form-actions button:hover {
+      background-color: #58727E;
+  }
+
+</style>
+
+<div class="create-competition-container">
+    <h2 class="create-competition-header">Create Competition</h2>
+    <form name="addForm" method="POST" action="/createcompetition">
+        <div class="form-group">
+            <label for="name">Name of Competition:</label>
+            <input type="text" id="name" name="name"  required style="color: white;">
+        </div>
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required style="color: white;">
+        </div>
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location"  required style="color: white;">
+        </div>
+        <div class="form-group">
+          <label for="level" style="color: white;">Competition Level</label>
+          <input style="color: white;" type="number" name="level"  min="1" max="5">
+        </div>
+        <div class="form-group">
+          <label for="max_score" style="color: white;">Competition Max Value</label>
+          <input style="color: white;" type="text" name="max_score" class="materialize-textarea" required>
+        </div>
+        <div class="form-actions">
+            <button type="submit">Create</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

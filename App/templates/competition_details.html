@@ -18,7 +18,7 @@
         margin-bottom: 10px;
         background-color: #fff;
         transition: box-shadow 0.3s;
-        color: black;
+        color: #9FB1BC;
     }
 
     .card:hover {
@@ -37,31 +37,91 @@
     }
 
     .table tbody tr:hover {
-        background-color: black;
+        background-color: #9FB1BC;
     }
 
+    .moderator-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px; /* Space between buttons */
+        margin: 20px 0;
+    }
+
+    .moderator-buttons button {
+        background-color: #9FB1BC;
+        padding: 10px 20px;
+        border-radius: 15px;
+        border: none;
+        font-family: helvetica;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .moderator-buttons button:hover {
+        background-color: #d5d0d0;
+    }
+
+    .moderator-buttons a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+    }
+
+    .alert {
+        padding: 20px;
+        background-color: #E2C044; /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    /* The close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    /* When moving the mouse over the close button */
+    .closebtn:hover {
+        color: black;
+    }
 </style>
-<div style="display: flex;">
-    <div>
-        <center><h2 style="margin-left: 50px; color: white;">Competition Details</h2></center>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
     </div>
-    <div>
-        {% if session['user_type'] == 'moderator' and moderator in competition.moderators and not competition.confirm %}
-        <button type="button" style="background-color: black; padding: 5px; margin-left: 50px; margin-top: 50px; width: 120px; height: 35px; border-radius: 15px; font-family: helvetica;">
-            <a style="color: white" href="{{ url_for('comp_views.add_results_page', comp_id=competition.id) }}">Add Results</a>
-        </button>
-        <button type="button" style="background-color: black; padding: 5px; margin-left: 50px; margin-top: 50px; width: 120px; height: 35px; border-radius: 15px; font-family: helvetica;">
-            <a style="color: white" href="{{ url_for('comp_views.confirm_results', comp_name=competition.name) }}">Confirm Results</a>
-        </button>
-        {% endif %}
-    </div>
-</div>
-<div class="container" style="font-family: serif;">
-    {% if not competition.confirm %}
-        <center> <h4 style="color: white; background-color: black; border-radius: 15px;">{{ competition.name }} Unofficial Results</h4> </center>
-    {% else %}
-        <center> <h4 style="color: white; background-color: black; border-radius: 15px;">{{ competition.name }} Official Results</h4> </center>
     {% endif %}
+{% endwith %}
+<!-- Moderator Buttons Section -->
+<div class="moderator-buttons">
+    {% if session['user_type'] == 'moderator' and moderator in competition.moderators and not competition.confirm %}
+        <button>
+            <a href="{{ url_for('comp_views.add_results_page', comp_id=competition.id) }}">Add Results</a>
+        </button>
+        <button>
+            <a href="{{ url_for('comp_views.confirm_results', comp_name=competition.name) }}">Confirm Results</a>
+        </button>
+    {% endif %}
+</div>
+
+<div class="container">
+    {% if not competition.confirm %}
+        <center> <h4 style="color: white;">{{ competition.name }} Unofficial Results</h4> </center>
+    {% else %}
+        <center> <h4 style="color: white;">{{ competition.name }} Official Results</h4> </center>
+    {% endif %}
+    <br>
     <table class="table" style="color: white; font-family: verdana;">
         <thead>
             <tr>
@@ -78,7 +138,7 @@
                 <td><center>{{row['team']}}</center></td>
                 <td>
                 {% for student in row['members'] %}
-                    <center><a style= "color: white;" href="{{url_for('index_views.student_profile_by_name', name=student)}}">{{student}}</p></center>
+                    <center><a style= "color: white;" href="{{url_for('index_views.student_profile_by_name', name=student)}}">{{student}}</a></center>
                 {% endfor %}
                 </td>
                 <td><center>{{row['score']}}</center></td>
