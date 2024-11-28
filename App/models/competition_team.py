@@ -28,15 +28,18 @@ class CompetitionTeam(db.Model):
     managers = db.relationship('CompetitionTeamManager', back_populates='competition_team', cascade="all, delete-orphan")
 
     def __init__(self, comp_id, team_id):
-      self.comp_id = comp_id
-      self.team_id = team_id
-      self.points_earned = 0
-      self.rating_score = 0
-      
-      team = Team.query.filter_by(id=team_id).first()
-      for student in team.students:
-          self.attach(student)
-      print(len(self.managers))
+        self.comp_id = comp_id
+        self.team_id = team_id
+        self.points_earned = 0
+        self.rating_score = 0
+        
+        try:
+            team = Team.query.filter_by(id=team_id).first()
+            for student in team.students:
+                self.attach(student)
+            print(len(self.managers))
+        except Exception as e:
+            print(f'Error initializing managers: {e}')        
     
     # def attach(self, manager: ScoreManager) -> None:
     #     students = self.managers
