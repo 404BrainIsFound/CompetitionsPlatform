@@ -50,7 +50,7 @@ def initialize_results():
             add_results(result['mod_name'], result['comp_name'], result['team_name'], int(result['score']))
     results_file.close()
 
-# updates results
+# finalizes results
 def finalize_results():
     with open("competitions.csv") as competitions_file:
         reader = csv.DictReader(competitions_file)
