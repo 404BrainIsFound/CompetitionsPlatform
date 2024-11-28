@@ -56,7 +56,7 @@ def finalize_results():
         reader = csv.DictReader(competitions_file)
         for competition in reader:
             update_ratings(competition['mod_name'], competition['comp_name'])
-            update_rankings()
+            update_rankings(competition['comp_name'])
     competitions_file.close()
 
 
@@ -166,7 +166,7 @@ def add_results_command(mod_name, comp_name, team_name, student1, student2, stud
 @click.argument("comp_name", default="comp1")
 def update_rankings_command(mod_name, comp_name):
     update_ratings(mod_name, comp_name)
-    update_rankings()
+    update_rankings(comp_name)
 
 @mod_cli.command("rankings", help="Displays overall rankings")
 def display_rankings_command():
