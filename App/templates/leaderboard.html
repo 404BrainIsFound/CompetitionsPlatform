@@ -161,7 +161,7 @@
                 {{ student['student'] }}
             </a>
         </p>
-        <p><strong>Rating Score:</strong> {{ '%0.2f' % student['rating score']|float }}</p>
+        <p><strong>Rating Score:</strong> {{ student['rating score'] }}</p>
     </div>
     {% endfor %}
 </div>
@@ -185,7 +185,7 @@
                         {{ student['student'] }}
                     </a>
                 </td>
-                <td>{{ '%0.2f' % student['rating score']|float }}</td>
+                <td>{{ student['rating score'] }}</td>
             </tr>
             {% endfor %}
         </tbody>

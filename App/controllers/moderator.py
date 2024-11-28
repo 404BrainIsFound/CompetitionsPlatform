@@ -1,5 +1,6 @@
 from App.database import db
 from App.models import Moderator, Competition, Team, CompetitionTeam
+from math import ceil
 
 def create_moderator(username, password, email):
     mod = get_moderator_by_username(username)
@@ -69,7 +70,7 @@ def add_mod(mod1_name, comp_name, mod2_name):
         return None
     else:
         return comp.add_mod(mod2)
-                
+
 def add_results(mod_name, comp_name, team_name, score):
     mod = Moderator.query.filter_by(username=mod_name).first()
     comp = Competition.query.filter_by(name=comp_name).first()
@@ -94,7 +95,8 @@ def add_results(mod_name, comp_name, team_name, score):
 
                 if comp_team:
                     comp_team.points_earned = score
-                    comp_team.rating_score = (score/comp.max_score) * 20 * comp.level
+                    comp_team.rating_score = int(ceil((score/comp.max_score) * 100 * comp.level))
+                    # comp_team.notify()
                     try:
                         db.session.add(comp_team)
                         db.session.commit()
@@ -102,7 +104,7 @@ def add_results(mod_name, comp_name, team_name, score):
                         return comp_team
                     except Exception as e:
                         db.session.rollback()
-                        print("Something went wrong!")
+                        print("Something went wrong: {e}")
                         return None
     return None
 
@@ -128,18 +130,22 @@ def update_ratings(mod_name, comp_name):
         return None
     else:
         comp_teams = CompetitionTeam.query.filter_by(comp_id=comp.id).all()
-
+        
         for comp_team in comp_teams:
-            team = Team.query.filter_by(id=comp_team.team_id).first()
+            comp_team.notify()
 
-            for stud in team.students:
-                stud.rating_score = (stud.rating_score*stud.comp_count + comp_team.rating_score)/(stud.comp_count+1)
-                stud.comp_count += 1
-                try:
-                    db.session.add(stud)
-                    db.session.commit()
-                except Exception as e:
-                    db.session.rollback()
+        # comp_teams = CompetitionTeam.query.filter_by(comp_id=comp.id).all()
+
+        # for comp_team in comp_teams:
+        #     team = Team.query.filter_by(id=comp_team.team_id).first()
+
+        #     for stud in team.students:
+        #         stud.update(comp_team.id)
+        #         try:
+        #             db.session.add(stud)
+        #             db.session.commit()
+        #         except Exception as e:
+        #             db.session.rollback()
 
         comp.confirm = True
         print("Results finalized!")
