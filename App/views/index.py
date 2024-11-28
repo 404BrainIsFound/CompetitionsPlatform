@@ -186,19 +186,6 @@ def create_moderator():
     else:
         return jsonify({'message': "Failed to create moderator!"})
 """       
-"""
-@index_views.route('/login')
-def login():
-    return render_template('login.html')
-
-    
-@index_views.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        create_student(request.form['username'], request.form['password'])
-        return render_template('login.html')#, students=get_all_students())#,get_ranking=get_ranking,display_rankings=display_rankings,competitions=get_all_competitions())
-    return render_template('signup.html')
-"""
 
 @index_views.route('/init_postman', methods=['GET'])
 def init_postman():
