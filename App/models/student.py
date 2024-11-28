@@ -1,7 +1,6 @@
 from App.database import db
 from App.models import User
 from .score_manager import *
-from .competition_team import *
 
 class Student(User, ScoreManager):
     __tablename__ = 'student'
@@ -34,10 +33,21 @@ class Student(User, ScoreManager):
         return None    
     
     def update(self, message):
-        results = CompetitionTeam.query.get(message)
-        if results:
-            self.rating_score += results.rating_score
-            self.comp_count += 1
+        self.rating_score += message
+        self.comp_count += 1
+    
+    # def update(self, message):
+    #     result = CompetitionTeam.query.get(message)
+    #     print(f'Are we here ever?')
+    #     if result:
+    #         try:
+    #             self.rating_score += result.rating_score
+    #             self.comp_count += 1
+    #             db.session.add(self)
+    #             db.session.commit()
+    #         except Exception as e:
+    #             print(f'Error updating students: {e}')
+    #             db.session.rollback()
 
     def get_json(self):
         return {

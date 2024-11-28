@@ -53,14 +53,12 @@ class Competition(db.Model):
         try:
             self.teams.append(team)
             team.competitions.append(self)
-            for student in team.students:
-                comp_team.attach(student)
             db.session.commit()
             print(f'{team.name} was added to {self.name}!')
             return comp_team
         except Exception as e:
             db.session.rollback()
-            print("Something went wrong!")
+            print(f'Something went wrong: {e}')
             return None
 
     def get_json(self):
