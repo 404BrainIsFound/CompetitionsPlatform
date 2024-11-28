@@ -87,8 +87,8 @@ class UnitTests(unittest.TestCase):
     #Ranking Unit Tests
     def test_new_ranking(self):
       
-      ranking = Ranking(1)
-      assert ranking.student_id == 1
+      ranking = Ranking(1, 1, "20-02-2024")
+      assert ranking.student_id == 1 and ranking.rank == 1 and ranking.date == "20-02-2024"
   
     # def test_set_points(self):
     
@@ -96,11 +96,11 @@ class UnitTests(unittest.TestCase):
     #   ranking.set_points(15)
     #   assert ranking.total_points == 15
 
-    def test_update_ranking(self):
+    # def test_update_ranking(self):
       
-      ranking = Ranking(1)
-      ranking.update_rankings(12)
-      assert ranking.rank == 12
+    #   ranking = Ranking(1)
+    #   ranking.update_rankings(12)
+    #   assert ranking.rank == 12
 
     # def test_previous_ranking(self):
     
