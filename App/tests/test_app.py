@@ -138,7 +138,7 @@ class UnitTests(unittest.TestCase):
       competition_team = CompetitionTeam(1, 1)
       competition_team.update_points(15)
       competition_team.update_rating(12)
-      self.assertDictEqual(competition_team.get_json(), {"id": None, "team_id": 1, "competition_id": 1, "points_earned": 15, "rating_score": 12})
+      self.assertDictEqual(competition_team.get_json(), {"id": 1, "team_id": 1, "competition_id": 1, "points_earned": 15, "rating_score": 12})
 
     #CompetitionModerator Unit Tests
     def test_new_competition_moderator(self):
