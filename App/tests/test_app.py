@@ -371,7 +371,7 @@ class IntegrationTests(unittest.TestCase):
       comp_team2 = add_results(mod.username, comp.name, "Scrum Lords", 10)
       update_ratings(mod.username, comp.name)
       update_rankings()
-      self.assertListEqual(display_rankings(), [{"placement": 1, "student": "james", "rating score": 24.0}, {"placement": 1, "student": "steven", "rating score": 24.0}, {"placement": 1, "student": "emily", "rating score": 24.0}, {"placement": 4, "student": "mark", "rating score": 16.0}, {"placement": 4, "student": "eric", "rating score": 16.0}, {"placement": 4, "student": "ryan", "rating score": 16.0}])
+      self.assertListEqual(display_rankings(), [{"placement": 1, "student": "james", "rating score": 120}, {"placement": 1, "student": "steven", "rating score": 120}, {"placement": 1, "student": "emily", "rating score": 120}, {"placement": 4, "student": "mark", "rating score": 80}, {"placement": 4, "student": "eric", "rating score": 80}, {"placement": 4, "student": "ryan", "rating score": 80}])
 
     #Feature 6 Integration Tests
     def test1_display_notification(self):
