@@ -96,7 +96,7 @@ def add_results(mod_name, comp_name, team_name, score):
                 if comp_team:
                     comp_team.points_earned = score
                     comp_team.rating_score = int(ceil((score/comp.max_score) * 100 * comp.level))
-                    comp_team.notify()
+                    # comp_team.notify()
                     try:
                         db.session.add(comp_team)
                         db.session.commit()
@@ -129,9 +129,11 @@ def update_ratings(mod_name, comp_name):
         print(f'No teams found. Results can not be confirmed!')
         return None
     else:
-        # comp_teams = CompetitionTeam.query.filter_by(comp_id=comp.id).all()
-        # for comp_team in comp_teams:
-        #     comp_team.notify()
+        comp_teams = CompetitionTeam.query.filter_by(comp_id=comp.id).all()
+        
+        for comp_team in comp_teams:
+            comp_team.notify()
+
         # comp_teams = CompetitionTeam.query.filter_by(comp_id=comp.id).all()
 
         # for comp_team in comp_teams:
