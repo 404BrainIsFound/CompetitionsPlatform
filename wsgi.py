@@ -116,11 +116,13 @@ def list_students_command(format):
 @student_cli.command("display", help="Displays student profile")
 @click.argument("username", default="stud1")
 def display_student_info_command(username):
+    username = input("Enter your username: ")
     print(display_student_info(username))
 
 @student_cli.command("notifications", help="Gets all notifications")
 @click.argument("username", default="stud1")
 def display_notifications_command(username):
+    username = input("Enter your username: ")
     print(display_notifications(username))
 
 app.cli.add_command(student_cli)
