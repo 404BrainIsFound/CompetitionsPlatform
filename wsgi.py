@@ -95,6 +95,8 @@ def create_student_command(username, password, email):
 @click.argument("id", default="1")
 @click.argument("username", default="stud1")
 def update_student_command(id, username):
+    id = input("Enter your ID number: ")
+    username = input("Enter your username: ")
     student = update_student(id, username)
 
 @student_cli.command("list", help="Lists students in the database")
