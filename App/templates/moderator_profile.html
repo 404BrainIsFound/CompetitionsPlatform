@@ -148,7 +148,7 @@
                 <h4><strong>{{ competition.name }}</strong></h4>
             </div>
             <div>
-                <a href="{{ url_for('comp_views.competition_details_by_name', name=competition.name) }}">Details</a>
+                <a href="{{ url_for('comp_views.competition_details', name=competition.name) }}">Details</a>
             </div>
         </div>
         {% endfor %}

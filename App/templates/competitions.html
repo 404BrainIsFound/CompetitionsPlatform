@@ -190,7 +190,7 @@
     {% for competition in competitions %}
     <div class="flip-card">
         <div class="flip-card-inner">
-            <a style="color: white;" href="{{url_for('comp_views.competition_details', id=competition.id)}}">
+            <a style="color: white;" href="{{url_for('comp_views.competition_details', name=competition.name)}}">
                 <div class="flip-card-front">
                     <h3>{{competition.name}}</h3>
                 </div>
@@ -202,7 +202,7 @@
                     <p><strong>Moderators:</strong></p>
                     {% for moderator in competition.moderators %}
                         <p>{{ loop.index }}) 
-                            <a href="{{url_for('index_views.moderator_profile', id=moderator.id)}}">
+                            <a href="{{url_for('index_views.moderator_profile', name=moderator.username)}}">
                                 {{moderator.username}}
                             </a>
                         </p>

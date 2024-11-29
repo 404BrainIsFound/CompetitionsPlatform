@@ -157,7 +157,7 @@
         <span class="placement">#{{ student['placement'] }}</span>
         <p>
             <strong>Username:</strong>
-            <a href="{{ url_for('index_views.student_profile_by_name', name=student['student']) }}">
+            <a href="{{ url_for('index_views.student_profile', name=student['student']) }}">
                 {{ student['student'] }}
             </a>
         </p>
@@ -181,7 +181,7 @@
             <tr>
                 <td>{{ student['placement'] }}</td>
                 <td>
-                    <a href="{{ url_for('index_views.student_profile_by_name', name=student['student']) }}">
+                    <a href="{{ url_for('index_views.student_profile', name=student['student']) }}">
                         {{ student['student'] }}
                     </a>
                 </td>

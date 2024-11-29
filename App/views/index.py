@@ -1,6 +1,6 @@
-from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify, session
-from flask_jwt_extended import jwt_required, current_user as jwt_current_user
-from flask_login import login_required, login_user, current_user, logout_user
+from flask import Blueprint, render_template, jsonify, session
+from flask_jwt_extended import current_user as jwt_current_user
+from flask_login import current_user
 from App.models import db
 from App.controllers import *
 import csv
@@ -93,32 +93,17 @@ def profile():
     id = current_user.get_id()
     
     if user_type == 'moderator':
-        template = moderator_profile(id)
+        user = get_moderator(id)
+        template = moderator_profile(user.username)
 
     if user_type == 'student':
-        template = student_profile(id)
+        user = get_student(id)
+        template = student_profile(user.username)
 
     return template
 
-@index_views.route('/students/<int:id>', methods=['GET'])
-def student_profile(id):
-    student = get_student(id)
-
-    if not student:
-        return render_template('404.html')
-    
-    profile_info = display_student_info(student.username)
-    competitions = profile_info['competitions']
-    """
-    competitions = Competition.query.filter(Competition.participants.any(id=user_id)).all()
-    ranking = Ranking.query.filter_by(student_id=user_id).first()
-    notifications= get_notifications(user.username)
-    """
-
-    return render_template('student_profile.html', student=student, competitions=competitions, user=current_user)
-
 @index_views.route('/students/<string:name>', methods=['GET'])
-def student_profile_by_name(name):
+def student_profile(name):
     student = get_student_by_username(name)
 
     if not student:
@@ -126,66 +111,17 @@ def student_profile_by_name(name):
     
     profile_info = display_student_info(student.username)
     competitions = profile_info['competitions']
-    """
-    competitions = Competition.query.filter(Competition.participants.any(id=user_id)).all()
-    ranking = Ranking.query.filter_by(student_id=user_id).first()
-    notifications= get_notifications(user.username)
-    """
 
     return render_template('student_profile.html', student=student, competitions=competitions, user=current_user)
 
-@index_views.route('/moderators/<int:id>', methods=['GET'])
-def moderator_profile(id):   
-    moderator = get_moderator(id)
+@index_views.route('/moderators/<string:name>', methods=['GET'])
+def moderator_profile(name):   
+    moderator = get_moderator_by_username(name)
 
     if not moderator:
         return render_template('404.html')
-    """
-    profile_info = display_student_info(student.username)
-    competitions = profile_info['competitions']
-    
-    competitions = Competition.query.filter(Competition.participants.any(id=user_id)).all()
-    ranking = Ranking.query.filter_by(student_id=user_id).first()
-    notifications= get_notifications(user.username)
-    """
 
     return render_template('moderator_profile.html', moderator=moderator, user=current_user)
-
-    """
-@index_views.route('/register_competition', methods=['POST'])
-def Register_Competition():
-    username = request.form.get('username')
-    competition_name = request.form.get('competition_name')
-
-    result = register_student(username, competition_name)
-    if result:
-        return f'Successfully registered {username} for {competition_name}'
-    else:
-        return 'Registration failed'
-
-@index_views.route('/student_ranking/<int:id>')
-def student_rank(id):
-    student =get_student(id)
-
-    if not student:
-        return render_template('404.html')
-    
-    competitions = Competition.query.filter(Competition.participants.any(id=user_id)).all()
-    ranking = Ranking.query.filter_by(student_id=user_id).first()
-
-    ranking= ranking.curr_ranking
-    
-    return jsonify(student.curr_rank) 
-
-@index_views.route('/api/moderator', methods=['POST'])
-def create_moderator():
-    data = request.json
-    mod = create_moderator(data['username'], data['password'])
-    if mod:
-        return jsonify({'message': f"Moderator: {mod.username} created!"})
-    else:
-        return jsonify({'message': "Failed to create moderator!"})
-"""       
 
 @index_views.route('/init_postman', methods=['GET'])
 def init_postman():

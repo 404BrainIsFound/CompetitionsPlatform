@@ -107,10 +107,10 @@
 <div class="moderator-buttons">
     {% if session['user_type'] == 'moderator' and moderator in competition.moderators and not competition.confirm %}
         <button>
-            <a href="{{ url_for('comp_views.add_results_page', comp_id=competition.id) }}">Add Results</a>
+            <a href="{{ url_for('comp_views.add_results_page', name=competition.name) }}">Add Results</a>
         </button>
         <button>
-            <a href="{{ url_for('comp_views.confirm_results', comp_name=competition.name) }}">Confirm Results</a>
+            <a href="{{ url_for('comp_views.confirm_results', name=competition.name) }}">Confirm Results</a>
         </button>
     {% endif %}
 </div>
@@ -138,7 +138,7 @@
                 <td><center>{{row['team']}}</center></td>
                 <td>
                 {% for student in row['members'] %}
-                    <center><a style= "color: white;" href="{{url_for('index_views.student_profile_by_name', name=student)}}">{{student}}</a></center>
+                    <center><a style= "color: white;" href="{{url_for('index_views.student_profile', name=student)}}">{{student}}</a></center>
                 {% endfor %}
                 </td>
                 <td><center>{{row['score']}}</center></td>
