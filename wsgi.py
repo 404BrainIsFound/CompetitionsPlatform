@@ -216,10 +216,17 @@ def display_rankings_command():
 @mod_cli.command("list", help="Lists moderators in the database")
 @click.argument("format", default="string")
 def list_moderators_command(format):
-    if format == 'string':
+    print ("Select Format:")
+    print ("1. String")
+    print ("2. Json")
+    format = input("Enter your choice: ")
+    if format == "1":
         print(get_all_moderators())
-    else:
+    elif format == "2":
         print(get_all_moderators_json())
+    else:
+        print("An invalid selection was made!")
+        
 
 app.cli.add_command(mod_cli)
 
