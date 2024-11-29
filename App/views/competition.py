@@ -113,7 +113,7 @@ def add_competition_results(name):
 
     return render_template('competition_details.html', competition=competition, moderator=moderator, leaderboard=leaderboard, user=current_user)
     
-@comp_views.route('/competitions/<string:name>/final-results', methods=['GET', 'POST'])
+@comp_views.route('/competitions/<string:name>/final-results', methods=['GET'])
 def confirm_results(name):
     if session['user_type'] == 'moderator':
         moderator = Moderator.query.filter_by(id=current_user.id).first()
