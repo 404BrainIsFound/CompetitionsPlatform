@@ -245,6 +245,17 @@ comp_cli = AppGroup("comp", help = "Competition commands")
 @click.argument("level", default = 1)
 @click.argument("max_score", default = 25)
 def create_competition_command(mod_name, name, date, location, level, max_score):
+
+    mod_name = input("Enter the name of the competition moderator: ")
+    name = input("Enter the name of the competition to be created: ")
+    date = input("Enter the competiton date (mm-dd-yyyy): ")
+    location = input("Enter the location: ")
+    level = input("Enter the competiton level: ")
+    max_score = input("Enter the competition's max score: ")
+
+    level = int(level)
+    max_score = int(max_score)
+    
     comp = create_competition(mod_name, name, date, location, level, max_score)
 
 @comp_cli.command("details", help = "Displays competition details")
