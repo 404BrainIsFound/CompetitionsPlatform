@@ -214,7 +214,7 @@ def display_rankings_command():
     display_rankings()
 
 @mod_cli.command("list", help="Lists moderators in the database")
-@click.argument("format", default="string")
+@click.argument("format", default="1")
 def list_moderators_command(format):
     print ("Select Format:")
     print ("1. String")
@@ -254,8 +254,19 @@ def display_competition_details_command(name):
     print(comp.get_json())
 
 @comp_cli.command("list", help = "list all competitions")
-def list_competition_command():
-    print(get_all_competitions_json())
+@click.argument("format", default="1")
+def list_competition_command(format):
+    
+    print ("Select Format:")
+    print ("1. String")
+    print ("2. Json")
+    format = input("Enter your choice: ")
+    if format == "1":
+        print(get_all_competitions())
+    elif format == "2":
+        print(get_all_competitions_json())
+    else:
+        print("An invalid selection was made!")
 
 @comp_cli.command("results", help = "displays competition results")
 @click.argument("name", default = "comp1")
