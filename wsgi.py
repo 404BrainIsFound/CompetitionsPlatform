@@ -152,25 +152,25 @@ def create_moderator_command(username, password, email):
 #     mod = add_mod(mod1_name, comp_name, mod2_name)
 
 
-@mod_cli.command("addTeam", help="Adds a team to a competition")
-@click.argument("mod_name", default="mod1")
-@click.argument("comp_name", default="comp1")
-@click.argument("team_name", default="A")
-@click.argument("student1", default="stud1")
-@click.argument("student2", default="stud2")
-@click.argument("student3", default="stud3")
-def add_team_to_comp_command(mod_name, comp_name, team_name, student1, student2, student3):
-    student1 = input ("Enter the name for Student 1: ")
-    student2 = input ("Enter the name for Student 2: ")
-    student3 = input ("Enter the name for Student 3: ")
+# @mod_cli.command("addTeam", help="Adds a team to a competition")
+# @click.argument("mod_name", default="mod1")
+# @click.argument("comp_name", default="comp1")
+# @click.argument("team_name", default="A")
+# @click.argument("student1", default="stud1")
+# @click.argument("student2", default="stud2")
+# @click.argument("student3", default="stud3")
+# def add_team_to_comp_command(mod_name, comp_name, team_name, student1, student2, student3):
+#     student1 = input ("Enter the name for Student 1: ")
+#     student2 = input ("Enter the name for Student 2: ")
+#     student3 = input ("Enter the name for Student 3: ")
 
-    mod_name = input ("Enter your username: ")
-    comp_name = input ("Enter the name of the competition: ")
-    team_name = input ("Enter the name of the team to be added: ")
+#     mod_name = input ("Enter your username: ")
+#     comp_name = input ("Enter the name of the competition: ")
+#     team_name = input ("Enter the name of the team to be added: ")
     
     
-    students = [student1, student2, student3]
-    comp = add_team(mod_name, comp_name, team_name, students)
+#     students = [student1, student2, student3]
+#     comp = add_team(mod_name, comp_name, team_name, students)
 
 
 @mod_cli.command("addResults", help="Adds results for a team in a competition")
@@ -182,8 +182,19 @@ def add_team_to_comp_command(mod_name, comp_name, team_name, student1, student2,
 @click.argument("student3", default="stud3")
 @click.argument("score", default=10)
 def add_results_command(mod_name, comp_name, team_name, student1, student2, student3, score):
+    student1 = input ("Enter the name for Student 1: ")
+    student2 = input ("Enter the name for Student 2: ")
+    student3 = input ("Enter the name for Student 3: ")
+
+    mod_name = input ("Enter your username: ")
+    comp_name = input ("Enter the name of the competition: ")
+    team_name = input ("Enter the name of the team to be added: ")
+
     students = [student1, student2, student3]
     comp = add_team(mod_name, comp_name, team_name, students)
+
+    score = input ("Enter the score for the team: ")
+    score = int(score)
 
     if comp:
         comp_team = add_results(mod_name, comp_name, team_name, score)
@@ -192,6 +203,9 @@ def add_results_command(mod_name, comp_name, team_name, student1, student2, stud
 @click.argument("mod_name", default="mod1")
 @click.argument("comp_name", default="comp1")
 def update_rankings_command(mod_name, comp_name):
+    mod_name = input ("Enter your username: ")
+    comp_name = input ("Enter the name of the competition: ")
+    
     update_ratings(mod_name, comp_name)
     update_rankings(comp_name)
 
