@@ -84,8 +84,9 @@ student_cli = AppGroup("student", help="Student commands")
 @student_cli.command("create", help="Creates a student")
 @click.argument("username", default="stud1")
 @click.argument("password", default="stud1pass")
-def create_student_command(username, password):
-    student = create_student(username, password)
+@click.argument("email", default="stud1mail")
+def create_student_command(username, password, email):
+    student = create_student(username, password, email)
 
 @student_cli.command("update", help="Updates a student's username")
 @click.argument("id", default="1")
