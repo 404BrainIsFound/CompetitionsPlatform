@@ -125,6 +125,12 @@ def display_notifications_command(username):
     username = input("Enter your username: ")
     print(display_notifications(username))
 
+@student_cli.command("rank", help="Gets the rank history of the student")
+@click.argument("username", default="stud1")
+def get_rank_history_command(username):
+    username = input("Enter your username: ")
+    print(get_rank_history_json(username))
+
 app.cli.add_command(student_cli)
 
 
