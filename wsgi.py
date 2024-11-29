@@ -86,49 +86,60 @@ student_cli = AppGroup("student", help="Student commands")
 @click.argument("password", default="stud1pass")
 @click.argument("email", default="stud1mail")
 def create_student_command(username, password, email):
-    username = input("Enter your username: ")
-    password = input("Enter your password: ")
-    email = input("Enter your email: ")
+    if username == "stud1":
+        username = input("Enter your username: ")
+    if password == "stud1pass":
+        password = input("Enter your password: ")
+    if email == "stud1mail":
+        email = input("Enter your email: ")
     student = create_student(username, password, email)
 
 @student_cli.command("update", help="Updates a student's username")
-@click.argument("id", default="1")
+@click.argument("id", default="0")
 @click.argument("username", default="stud1")
 def update_student_command(id, username):
-    id = input("Enter your ID number: ")
-    username = input("Enter your username: ")
+    if id == "0":
+        id = input("Enter your ID number: ")
+    if username == "stud1":
+        username = input("Enter your username: ")
     student = update_student(id, username)
 
 @student_cli.command("list", help="Lists students in the database")
-@click.argument("format", default=1)
+@click.argument("format", default="0")
 def list_students_command(format):
-    print ("Select Format:")
-    print ("1. String")
-    print ("2. Json")
-    format = input("Enter your choice: ")
+
+    if format == "0":
+        print ("Select Format:")
+        print ("1. String")
+        print ("2. Json")
+        format = input("Enter your choice: ")
+    
     if format == "1":
-        print(get_all_students())
+            print(get_all_students())
     elif format == "2":
-        print(get_all_students_json())
+            print(get_all_students_json())
     else:
-        print("That was an invalid choice!")
+            print("That was an invalid choice!")
 
 @student_cli.command("display", help="Displays student profile")
 @click.argument("username", default="stud1")
 def display_student_info_command(username):
-    username = input("Enter your username: ")
+    if username == "stud1":
+        username = input("Enter your username: ")
     print(display_student_info(username))
 
 @student_cli.command("notifications", help="Gets all notifications")
 @click.argument("username", default="stud1")
 def display_notifications_command(username):
-    username = input("Enter your username: ")
+    if username == "stud1":
+        username = input("Enter your username: ")
     print(display_notifications(username))
 
 @student_cli.command("rank", help="Gets the rank history of the student")
 @click.argument("username", default="stud1")
 def get_rank_history_command(username):
-    username = input("Enter your username: ")
+    if username == "stud1":
+        username = input("Enter your username: ")
     print(get_rank_history_json(username))
 
 app.cli.add_command(student_cli)
@@ -145,15 +156,19 @@ mod_cli = AppGroup("mod", help="Moderator commands")
 @click.argument("password", default="mod1pass")
 @click.argument("email", default="mod1mail")
 def create_moderator_command(username, password, email):
-    username = input("Enter your username: ")
-    password = input("Enter your password: ")
-    email = input("Enter your email: ")
+    if username == "mod1":
+        username = input("Enter your username: ")
+    if password == "mod1pass":
+        password = input("Enter your password: ")
+    if email == "mod1mail":
+        email = input("Enter your email: ")
     mod = create_moderator(username, password, email)
 
 @mod_cli.command("display", help="Displays moderator profile")
 @click.argument("username", default="mod1")
 def display_moderator_info_command(username):
-    username = input("Enter your username: ")
+    if username == "mod1":
+        username = input("Enter your username: ")
 
     mod = get_moderator_by_username(username)
     print(mod.get_json())
@@ -196,13 +211,22 @@ def display_moderator_info_command(username):
 @click.argument("student3", default="stud3")
 @click.argument("score", default=10)
 def add_results_command(mod_name, comp_name, team_name, student1, student2, student3, score):
-    student1 = input ("Enter the name for Student 1: ")
-    student2 = input ("Enter the name for Student 2: ")
-    student3 = input ("Enter the name for Student 3: ")
 
-    mod_name = input ("Enter your username: ")
-    comp_name = input ("Enter the name of the competition: ")
-    team_name = input ("Enter the name of the team to be added: ")
+    if student1 =="stud1":
+        student1 = input ("Enter the name for Student 1: ")
+    if student2 =="stud2":
+        student2 = input ("Enter the name for Student 2: ")
+    if student3 == "stud3":
+        student3 = input ("Enter the name for Student 3: ")
+
+    if mod_name == "mod1":
+        mod_name = input ("Enter your username: ")
+
+    if comp_name == "comp1":
+        comp_name = input ("Enter the name of the competition: ")
+
+    if team_name == "team1":
+        team_name = input ("Enter the name of the team to be added: ")
 
     students = [student1, student2, student3]
     comp = add_team(mod_name, comp_name, team_name, students)
@@ -217,8 +241,11 @@ def add_results_command(mod_name, comp_name, team_name, student1, student2, stud
 @click.argument("mod_name", default="mod1")
 @click.argument("comp_name", default="comp1")
 def update_rankings_command(mod_name, comp_name):
-    mod_name = input ("Enter your username: ")
-    comp_name = input ("Enter the name of the competition: ")
+    if mod_name == "mod1":
+        mod_name = input ("Enter your username: ")
+
+    if comp_name == "comp1":
+        comp_name = input ("Enter the name of the competition: ")
 
     update_ratings(mod_name, comp_name)
     update_rankings(comp_name)
@@ -228,12 +255,15 @@ def display_rankings_command():
     display_rankings()
 
 @mod_cli.command("list", help="Lists moderators in the database")
-@click.argument("format", default="1")
+@click.argument("format", default="0")
 def list_moderators_command(format):
-    print ("Select Format:")
-    print ("1. String")
-    print ("2. Json")
-    format = input("Enter your choice: ")
+
+    if format == "0":
+        print ("Select Format:")
+        print ("1. String")
+        print ("2. Json")
+        format = input("Enter your choice: ")
+
     if format == "1":
         print(get_all_moderators())
     elif format == "2":
@@ -254,18 +284,24 @@ comp_cli = AppGroup("comp", help = "Competition commands")
 @comp_cli.command("create", help = "Creates a competition")
 @click.argument("mod_name", default = "mod1")
 @click.argument("name", default = "comp1")
-@click.argument("date", default = "09-02-2024")
-@click.argument("location", default = "CSL")
-@click.argument("level", default = 1)
-@click.argument("max_score", default = 25)
+@click.argument("date", default = "00-00-0000")
+@click.argument("location", default = "loc1")
+@click.argument("level", default = 10)
+@click.argument("max_score", default = 250)
 def create_competition_command(mod_name, name, date, location, level, max_score):
 
-    mod_name = input("Enter the name of the competition moderator: ")
-    name = input("Enter the name of the competition to be created: ")
-    date = input("Enter the competiton date (mm-dd-yyyy): ")
-    location = input("Enter the location: ")
-    level = input("Enter the competiton level: ")
-    max_score = input("Enter the competition's max score: ")
+    if mod_name == "mod1":
+        mod_name = input("Enter the name of the competition moderator: ")
+    if name == "comp1":
+        name = input("Enter the name of the competition to be created: ")
+    if date == "00-00-0000":
+        date = input("Enter the competiton date (mm-dd-yyyy): ")
+    if location == "loc1":
+        location = input("Enter the location: ")
+    if level == "10":
+        level = input("Enter the competiton level: ")
+    if max_score == "250":
+        max_score = input("Enter the competition's max score: ")
 
     level = int(level)
     max_score = int(max_score)
@@ -275,18 +311,21 @@ def create_competition_command(mod_name, name, date, location, level, max_score)
 @comp_cli.command("details", help = "Displays competition details")
 @click.argument("name", default = "comp1")
 def display_competition_details_command(name):
-    name = input("Enter the name of the competition: ")
+    if name == "comp1":
+        name = input("Enter the name of the competition: ")
     comp = get_competition_by_name(name)
     print(comp.get_json())
 
 @comp_cli.command("list", help = "list all competitions")
-@click.argument("format", default="1")
+@click.argument("format", default="0")
 def list_competition_command(format):
+
+    if format == "0":
+        print ("Select Format:")
+        print ("1. String")
+        print ("2. Json")
+        format = input("Enter your choice: ")
     
-    print ("Select Format:")
-    print ("1. String")
-    print ("2. Json")
-    format = input("Enter your choice: ")
     if format == "1":
         print(get_all_competitions())
     elif format == "2":
@@ -297,7 +336,8 @@ def list_competition_command(format):
 @comp_cli.command("results", help = "displays competition results")
 @click.argument("name", default = "comp1")
 def display_competition_results_command(name):
-    name = input("Enter the name of the competition: ")
+    if name == "comp1":
+        name = input("Enter the name of the competition: ")
     print(display_competition_results(name))
 
 app.cli.add_command(comp_cli)
