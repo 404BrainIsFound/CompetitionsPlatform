@@ -261,6 +261,7 @@ def create_competition_command(mod_name, name, date, location, level, max_score)
 @comp_cli.command("details", help = "Displays competition details")
 @click.argument("name", default = "comp1")
 def display_competition_details_command(name):
+    name = input("Enter the name of the competition: ")
     comp = get_competition_by_name(name)
     print(comp.get_json())
 
@@ -282,6 +283,7 @@ def list_competition_command(format):
 @comp_cli.command("results", help = "displays competition results")
 @click.argument("name", default = "comp1")
 def display_competition_results_command(name):
+    name = input("Enter the name of the competition: ")
     print(display_competition_results(name))
 
 app.cli.add_command(comp_cli)
