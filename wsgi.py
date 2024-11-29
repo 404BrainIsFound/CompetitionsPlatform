@@ -139,6 +139,9 @@ mod_cli = AppGroup("mod", help="Moderator commands")
 @click.argument("password", default="mod1pass")
 @click.argument("email", default="mod1mail")
 def create_moderator_command(username, password, email):
+    username = input("Enter your username: ")
+    password = input("Enter your password: ")
+    email = input("Enter your email: ")
     mod = create_moderator(username, password, email)
 
 # @mod_cli.command("addMod", help="Adds a moderator to a competition")
