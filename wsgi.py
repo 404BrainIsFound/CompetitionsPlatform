@@ -160,6 +160,8 @@ def create_moderator_command(username, password, email):
 @click.argument("student2", default="stud2")
 @click.argument("student3", default="stud3")
 def add_team_to_comp_command(mod_name, comp_name, team_name, student1, student2, student3):
+    
+    
     students = [student1, student2, student3]
     comp = add_team(mod_name, comp_name, team_name, students)
 
@@ -254,4 +256,25 @@ app.cli.add_command(test)
 
 
 
+'''
+Team Commands
+'''
 
+team_cli = AppGroup("team", help="Team commands") 
+
+# @team_cli.command("create", help="Creates a student")
+# @click.argument("username", default="stud1")
+# @click.argument("password", default="stud1pass")
+# @click.argument("email", default="stud1mail")
+# def create_student_command(username, password, email):
+#     username = input("Enter your username: ")
+#     password = input("Enter your password: ")
+#     email = input("Enter your email: ")
+#     student = create_student(username, password, email)
+
+@team_cli.command("list", help = "list all teams")
+def list_team_command():
+    print(get_all_teams_json())
+
+
+app.cli.add_command(team_cli)
