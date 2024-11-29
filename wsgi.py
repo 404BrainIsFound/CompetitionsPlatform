@@ -100,12 +100,18 @@ def update_student_command(id, username):
     student = update_student(id, username)
 
 @student_cli.command("list", help="Lists students in the database")
-@click.argument("format", default="string")
+@click.argument("format", default=1)
 def list_students_command(format):
-    if format == 'string':
+    print ("Select Format:")
+    print ("1. String")
+    print ("2. Json")
+    format = input("Enter your choice: ")
+    if format == "1":
         print(get_all_students())
-    else:
+    elif format == "2":
         print(get_all_students_json())
+    else:
+        print("That was an invalid choice!")
 
 @student_cli.command("display", help="Displays student profile")
 @click.argument("username", default="stud1")
