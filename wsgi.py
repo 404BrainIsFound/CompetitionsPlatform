@@ -150,6 +150,14 @@ def create_moderator_command(username, password, email):
     email = input("Enter your email: ")
     mod = create_moderator(username, password, email)
 
+@mod_cli.command("display", help="Displays moderator profile")
+@click.argument("username", default="mod1")
+def display_moderator_info_command(username):
+    username = input("Enter your username: ")
+
+    mod = get_moderator_by_username(username)
+    print(mod.get_json())
+
 # @mod_cli.command("addMod", help="Adds a moderator to a competition")
 # @click.argument("mod1_name", default="mod1")
 # @click.argument("comp_name", default="comp1")
