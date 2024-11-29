@@ -86,6 +86,9 @@ student_cli = AppGroup("student", help="Student commands")
 @click.argument("password", default="stud1pass")
 @click.argument("email", default="stud1mail")
 def create_student_command(username, password, email):
+    username = input("Enter your username: ")
+    password = input("Enter your password: ")
+    email = input("Enter your email: ")
     student = create_student(username, password, email)
 
 @student_cli.command("update", help="Updates a student's username")
@@ -124,17 +127,18 @@ mod_cli = AppGroup("mod", help="Moderator commands")
 @mod_cli.command("create", help="Creates a moderator")
 @click.argument("username", default="mod1")
 @click.argument("password", default="mod1pass")
-def create_moderator_command(username, password):
-    mod = create_moderator(username, password)
+@click.argument("email", default="mod1mail")
+def create_moderator_command(username, password, email):
+    mod = create_moderator(username, password, email)
 
-@mod_cli.command("addMod", help="Adds a moderator to a competition")
-@click.argument("mod1_name", default="mod1")
-@click.argument("comp_name", default="comp1")
-@click.argument("mod2_name", default="mod2")
-def add_mod_to_comp_command(mod1_name, comp_name, mod2_name):
-    mod = add_mod(mod1_name, comp_name, mod2_name)
+# @mod_cli.command("addMod", help="Adds a moderator to a competition")
+# @click.argument("mod1_name", default="mod1")
+# @click.argument("comp_name", default="comp1")
+# @click.argument("mod2_name", default="mod2")
+# def add_mod_to_comp_command(mod1_name, comp_name, mod2_name):
+#     mod = add_mod(mod1_name, comp_name, mod2_name)
 
-"""
+
 @mod_cli.command("addTeam", help="Adds a team to a competition")
 @click.argument("mod_name", default="mod1")
 @click.argument("comp_name", default="comp1")
@@ -145,7 +149,7 @@ def add_mod_to_comp_command(mod1_name, comp_name, mod2_name):
 def add_team_to_comp_command(mod_name, comp_name, team_name, student1, student2, student3):
     students = [student1, student2, student3]
     comp = add_team(mod_name, comp_name, team_name, students)
-"""
+
 
 @mod_cli.command("addResults", help="Adds results for a team in a competition")
 @click.argument("mod_name", default="mod1")
