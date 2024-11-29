@@ -14,4 +14,4 @@ def get_historical_student_rankings(username):
     if response:
         return response
     else:
-        return jsonify({"error":"student does not exist"}, 404)
+        return (jsonify({'error':"student does not exist"}), 404)

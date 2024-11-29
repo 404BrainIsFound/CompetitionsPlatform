@@ -26,7 +26,7 @@ def add_new_comp():
     return (jsonify({'error': "Error creating competition"}),500)
 """
 #create new comp
-@comp_views.route('/createcompetition', methods=['POST'])
+@comp_views.route('/competitions', methods=['POST'])
 @login_required
 def create_comp():
     data = request.form
@@ -50,9 +50,13 @@ def create_comp():
     #return render_template('competitions.html', competitions=get_all_competitions())
 
 #page to create new comp
-@comp_views.route('/createcompetition', methods=['GET'])
+@comp_views.route('/competitions/new-competition', methods=['GET'])
+@login_required
 def create_comp_page():
-    return render_template('competition_creation.html', user=current_user)
+    if session['user_type'] == 'moderator':
+        return render_template('competition_creation.html', user=current_user)
+    else:
+        return (jsonify({'error':"insufficient permissions"}), 401)
 
 """
 @comp_views.route('/competitions/moderator', methods=['POST'])
@@ -95,7 +99,8 @@ def competition_details(name):
     #teams = get_participants(competition_name)
     return render_template('competition_details.html', competition=competition)
 """
-@comp_views.route('/competition/<string:name>', methods=['GET'])
+
+@comp_views.route('/competitions/<string:name>', methods=['GET'])
 def competition_details_by_name(name):
     competition = get_competition_by_name(name)
     if not competition:
@@ -131,8 +136,9 @@ def get_results(id):
         return jsonify({'error': 'Leaderboard not found!'}), 404 
     return (jsonify(leaderboard),200)
 """
+
 #page to comp upload comp results   - to get details first
-@comp_views.route('/add_results/<int:comp_id>', methods=['GET'])
+@comp_views.route('/competitions/<int:comp_id>/results', methods=['GET'])
 def add_results_page(comp_id):
     competition = get_competition(comp_id)
     if session['user_type'] == 'moderator':
@@ -144,7 +150,7 @@ def add_results_page(comp_id):
 
     return render_template('competition_results.html', competition=competition, moderator=moderator, leaderboard=leaderboard, user=current_user)
 
-@comp_views.route('/add_results/<string:comp_name>', methods=['POST'])
+@comp_views.route('/competitions/<string:comp_name>/results', methods=['POST'])
 def add_competition_results(comp_name):
     competition = get_competition_by_name(comp_name)
     if session['user_type'] == 'moderator':
@@ -155,6 +161,7 @@ def add_competition_results(comp_name):
     #if request.method == 'POST':
     data = request.form
     
+    team_name = data['team_name']
     students = [data['student1'], data['student2'], data['student3']]
 
     for student_name in students:
@@ -186,7 +193,7 @@ def add_competition_results(comp_name):
 
     return render_template('competition_details.html', competition=competition, moderator=moderator, leaderboard=leaderboard, user=current_user)
     
-@comp_views.route('/confirm_results/<string:comp_name>', methods=['GET', 'POST'])
+@comp_views.route('/competitions/<string:comp_name>/final-results', methods=['GET', 'POST'])
 def confirm_results(comp_name):
     if session['user_type'] == 'moderator':
         moderator = Moderator.query.filter_by(id=current_user.id).first()
