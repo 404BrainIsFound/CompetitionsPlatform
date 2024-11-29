@@ -110,7 +110,7 @@
 
 <div class="results-container">
     <h2 class="results-header">Competition Results</h2>
-    <form name="addForm" method="POST" action="{{ url_for('comp_views.add_competition_results', comp_name=competition.name) }}">
+    <form name="addForm" method="POST" action="{{ url_for('comp_views.add_competition_results', name=competition.name) }}">
         <div class="form-group">
             <label for="team_name">Team Name:</label>
             <input type="text" id="team_name" name="team_name"  class="validate" required>

@@ -13,3 +13,10 @@ class Ranking(db.Model):
         self.student_id = student_id
         self.rank = rank
         self.date = date
+
+    def get_json(self):
+        return {
+            "student_id": self.student_id,
+            "rank": self.rank,
+            "date": self.date
+        }

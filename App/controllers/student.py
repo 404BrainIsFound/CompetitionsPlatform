@@ -190,3 +190,19 @@ def display_rank_history(username):
         print(f'{rank["rank"]}\t{rank["date"]}')
 
     return history
+
+
+def get_rank_history_json(username):
+    student = get_student_by_username(username)
+
+    if not student:
+        print(f'{username} does not exist!')
+        return
+    
+    history = Ranking.query.filter_by(student_id=student.id).all()
+
+    if not history:
+        return []
+    else:
+        history.sort(key=lambda x: (x.id), reverse=True)
+        return [rank.get_json() for rank in history]

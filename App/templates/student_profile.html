@@ -281,7 +281,7 @@
             <div>
                 <p><strong>Points Earned:</strong> {{ competition.points_earned }}</p>
                 <p><strong>Rating Score:</strong> {{ competition.rating_score | round(2) }}</p>
-                <a href="{{ url_for('comp_views.competition_details_by_name', name=competition.name) }}">Details</a>
+                <a href="{{ url_for('comp_views.competition_details', name=competition.name) }}">Details</a>
             </div>
         </div>
         {% endfor %}
