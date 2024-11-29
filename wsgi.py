@@ -160,6 +160,13 @@ def create_moderator_command(username, password, email):
 @click.argument("student2", default="stud2")
 @click.argument("student3", default="stud3")
 def add_team_to_comp_command(mod_name, comp_name, team_name, student1, student2, student3):
+    student1 = input ("Enter the name for Student 1: ")
+    student2 = input ("Enter the name for Student 2: ")
+    student3 = input ("Enter the name for Student 3: ")
+
+    mod_name = input ("Enter your username: ")
+    comp_name = input ("Enter the name of the competition: ")
+    team_name = input ("Enter the name of the team to be added: ")
     
     
     students = [student1, student2, student3]
