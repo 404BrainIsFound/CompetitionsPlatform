@@ -1,5 +1,8 @@
 import os, tempfile, pytest, logging, unittest
 from werkzeug.security import check_password_hash, generate_password_hash
+from io import StringIO
+import sys
+
 
 from App.main import create_app
 from App.database import db, create_db
@@ -162,6 +165,8 @@ class UnitTests(unittest.TestCase):
       comp_team.detach(student)
       self.assertEqual(len(comp_team.managers),0)
 
+
+
     #CompetitionModerator Unit Tests
     def test_new_competition_moderator(self):
       
@@ -254,7 +259,30 @@ class IntegrationTests(unittest.TestCase):
     #   self.assertDictEqual(comp.get_json(), {"id": 1, "name": "RunTime", "date": "29-03-2024", "location": "St. Augustine", "level": 2, "max_score": 25, "moderators": ["debra"], "teams": []})
       
     #Feature 2 Integration Tests
-    
+
+
+    def test_competition_team_notify_manager(self):
+
+      
+
+
+      comp_team = CompetitionTeam(1, 1)
+      student = create_student("james", "jamespass", "james@email.com")
+      comp_team.attach(student)
+
+      captured_output = StringIO()
+      sys.stdout = captured_output
+
+
+      comp_team.notify()
+
+      sys.stdout = sys.__stdout__
+
+
+      output = captured_output.getvalue().strip()
+      expected_output = ("Notifying 1 managers.\nNotifying manager 1: james\nUpdating manager: james")
+      self.assertEqual(len(comp_team.managers),1)
+      self.assertEqual(output, expected_output)
 
     def test_add_results(self):
       
@@ -346,6 +374,40 @@ class IntegrationTests(unittest.TestCase):
       update_ratings(mod.username, comp.name)
       update_rankings(comp.name)
       self.assertDictEqual(display_student_info("james"), {"profile": {'id': 1, 'username': 'james', 'rating_score': 120, 'comp_count': 1, 'curr_rank': 1}, "competitions": [{'name': 'RunTime', 'points_earned': 15, 'rating_score': 120, 'team': 'Runtime Terrors'}]})
+
+      
+
+
+    def test_get_historical_rank(self):
+      mod = create_moderator("debra", "debrapass", "debra@email.com")
+      comp1 = create_competition(mod.username, "RunTime", "29-03-2024", "St. Augustine", 2, 25)
+      comp2 = create_competition(mod.username, "Hacker Cup", "23-02-2024", "Macoya", 1, 20)
+      student1 = create_student("james", "jamespass", "james@email.com")
+      student2 = create_student("steven", "stevenpass", "steven@email.com")
+      student3 = create_student("emily", "emilypass", "emily@email.com")
+      student4 = create_student("mark", "markpass", "mark@email.com")
+      student5 = create_student("eric", "ericpass", "eric@email.com")
+      student6 = create_student("ryan", "ryanpass", "ryan@email.com")
+      students1 = [student1.username, student2.username, student3.username]
+      team1 = add_team(mod.username, comp1.name, "Runtime Terrors", students1)
+      comp1_team1 = add_results(mod.username, comp1.name, "Runtime Terrors", 15)
+      students2 = [student4.username, student5.username, student6.username]
+      team2 = add_team(mod.username, comp1.name, "Scrum Lords", students2)
+      comp1_team2 = add_results(mod.username, comp1.name, "Scrum Lords", 10)
+      update_ratings(mod.username, comp1.name)
+      update_rankings(comp1.name)
+      students3 = [student1.username, student4.username, student5.username]
+      team3 = add_team(mod.username, comp2.name, "Runtime Terrors", students3)
+      comp_team3 = add_results(mod.username, comp2.name, "Runtime Terrors", 20)
+      students4 = [student2.username, student3.username, student6.username]
+      team4 = add_team(mod.username, comp2.name, "Scrum Lords", students4)
+      comp_team4 = add_results(mod.username, comp2.name, "Scrum Lords", 10)
+      update_ratings(mod.username, comp2.name)
+      update_rankings(comp2.name)
+
+      
+      self.assertListEqual(get_rank_history_json("steven"), [{'date': datetime(2024, 2, 23, 0, 0), 'rank': 4, 'student_id': 2},{'date': datetime(2024, 3, 29, 0, 0), 'rank': 1, 'student_id': 2}])
+
 
     #Feature 4 Integration Tests
     def test_display_competition(self):
