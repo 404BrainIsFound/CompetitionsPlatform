@@ -135,10 +135,10 @@ class UnitTests(unittest.TestCase):
 
     def test_competition_team_get_json(self):
       
-      competition_team = CompetitionTeam(3, 3)
+      competition_team = CompetitionTeam(4, 4)
       competition_team.update_points(15)
       competition_team.update_rating(12)
-      self.assertDictEqual(competition_team.get_json(), {"id": 3, "team_id": 3, "competition_id": 3, "points_earned": 15, "rating_score": 12})
+      self.assertDictEqual(competition_team.get_json(), {"id": 4, "team_id": 4, "competition_id": 4, "points_earned": 15, "rating_score": 12})
 
     def test_competition_team_attatch_manager(self):
       comp_team = CompetitionTeam(1, 1)
@@ -154,6 +154,13 @@ class UnitTests(unittest.TestCase):
       comp_team.attach(student)
       comp_team.attach(student)
       self.assertEqual(len(comp_team.managers),1)
+
+    def test_competition_team_detach_manager(self):
+      comp_team = CompetitionTeam(1, 1)
+      student = Student("james", "jamespass", "james@email.com")
+      comp_team.attach(student)
+      comp_team.detach(student)
+      self.assertEqual(len(comp_team.managers),0)
 
     #CompetitionModerator Unit Tests
     def test_new_competition_moderator(self):
