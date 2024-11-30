@@ -37,53 +37,13 @@ class CompetitionTeam(db.Model):
             team = Team.query.filter_by(id=team_id).first()
             for student in team.students:
                 self.attach(student)
-            print(len(self.managers))
         except Exception as e:
-            print(f'Error initializing managers: {e}')        
-    
-    # def attach(self, manager: ScoreManager) -> None:
-    #     students = self.managers
-    #     if manager.username not in students["username"]:
-    #         print(f'Attaching {manager.username}')
-    #         self.managers.append(manager.get_json())
-    #         try:
-    #             db.session.add(self)
-    #             db.session.commit()
-    #         except Exception as e:
-    #             print(f'Error attaching manager: {e}')
-    #             db.session.rollback()
-    
-    # def detach(self, manager: ScoreManager) -> None:
-    #     if manager in self.managers:
-    #         print(f'Detaching {manager.username}')
-    #         self.managers.remove(manager)
-    #         try:
-    #             db.session.add(self)
-    #             db.session.commit()
-    #         except Exception as e:
-    #             print(f'Error detaching manager: {e}')
-    #             db.session.rollback()
-    
-    # def notify(self):
-    #     count = 0
-    #     print(f'Notifying {count} managers.')
-    #     for manager in self.managers:
-    #         count += 1
-    #         print(f'Notifying {count} managers.')
-    #         print(f'Notifying manager: {manager.username}')
-    #         try:
-    #             manager.update(self.id)
-    #             print(f'Updating manager: {manager.username}')
-    #             db.session.add(manager)
-    #             db.session.commit()
-    #         except Exception as e:
-    #             print(f'Error updating manager: {e}')
-    #             db.session.rollback()
+            print(f'Error initializing managers: {e}')
     
     def attach(self, manager : ScoreManager):
         student = next((m for m in self.managers if m.manager == manager.username), None)
         if not student:
-            print(f'Attaching {manager.username}')
+            print(f'Attaching manager {manager.username}')
             new_manager = CompetitionTeamManager(competition_team_id=self.id, manager=manager.username)
             self.managers.append(new_manager)
             try:
@@ -98,7 +58,7 @@ class CompetitionTeam(db.Model):
     def detach(self, manager : ScoreManager):
         student = next((m for m in self.managers if m.manager == manager.username), None)
         if student:
-            print(f'Detaching {manager.username}')
+            print(f'Detaching manager {manager.username}')
             self.managers.remove(student)
             try:
                 db.session.add(self)
@@ -119,7 +79,6 @@ class CompetitionTeam(db.Model):
             if student:
                 try:
                     student.update(self.rating_score)
-                    print(f'Updating manager: {student.username}')
                     db.session.add(student)
                     db.session.commit()
                 except Exception as e:

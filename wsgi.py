@@ -55,8 +55,9 @@ def finalize_results():
     with open("competitions.csv") as competitions_file:
         reader = csv.DictReader(competitions_file)
         for competition in reader:
-            update_ratings(competition['mod_name'], competition['comp_name'])
-            update_rankings(competition['comp_name'])
+            if competition['comp_name'] != 'TopCoder':
+                update_ratings(competition['mod_name'], competition['comp_name'])
+                update_rankings(competition['comp_name'])
     competitions_file.close()
 
 
