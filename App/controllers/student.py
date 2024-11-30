@@ -151,25 +151,16 @@ def update_rankings(comp_name):
             leaderboard.append({"placement": curr_rank, "student": student.username, "rating score":student.rating_score})
             count += 1
 
-            student.prev_rank = student.curr_rank
-            student.curr_rank = curr_rank
-            if student.prev_rank == 0:
-                message = f'RANK : {student.curr_rank}. Congratulations on your first rank!'
-            elif student.curr_rank == student.prev_rank:
-                message = f'RANK : {student.curr_rank}. Well done! You retained your rank.'
-            elif student.curr_rank < student.prev_rank:
-                message = f'RANK : {student.curr_rank}. Congratulations! Your rank has went up.'
-            else:
-                message = f'RANK : {student.curr_rank}. Oh no! Your rank has went down.'
-            
-            create_ranking(student.id, student.curr_rank, competition.date)
-            create_notification(student)
-
             try:
+                student.set_rank(curr_rank)
                 db.session.add(student)
                 db.session.commit()
             except Exception as e:
                 db.session.rollback()
+                print(f'Error updating student rank: {e}')
+            
+            create_ranking(student.id, student.curr_rank, competition.date)
+            create_notification(student)
         else:
             create_ranking(student.id, 0, competition.date)
 
