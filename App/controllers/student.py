@@ -102,6 +102,27 @@ def create_ranking(student_id, rank, date):
         print(f'Error creating ranking: {e}')
 
 
+def create_notification(student):
+    if student.prev_rank == 0:
+        message = f'RANK : {student.curr_rank}. Congratulations on your first rank!'
+    elif student.curr_rank == student.prev_rank:
+        message = f'RANK : {student.curr_rank}. Well done! You retained your rank.'
+    elif student.curr_rank < student.prev_rank:
+        message = f'RANK : {student.curr_rank}. Congratulations! Your rank has went up.'
+    else:
+        message = f'RANK : {student.curr_rank}. Oh no! Your rank has went down.'
+    
+    notification = Notification(student.id, message)
+    student.notifications.append(notification)
+    
+    try:
+        db.session.add(student)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f'Error updating student notifications: {e}')
+
+
 def update_rankings(comp_name):
     students = get_all_students()
     competition = Competition.query.filter_by(name=comp_name).first()
@@ -129,7 +150,8 @@ def update_rankings(comp_name):
         if student.comp_count != 0:
             leaderboard.append({"placement": curr_rank, "student": student.username, "rating score":student.rating_score})
             count += 1
-        
+
+            student.prev_rank = student.curr_rank
             student.curr_rank = curr_rank
             if student.prev_rank == 0:
                 message = f'RANK : {student.curr_rank}. Congratulations on your first rank!'
@@ -140,10 +162,8 @@ def update_rankings(comp_name):
             else:
                 message = f'RANK : {student.curr_rank}. Oh no! Your rank has went down.'
             
-            student.prev_rank = student.curr_rank
             create_ranking(student.id, student.curr_rank, competition.date)
-            notification = Notification(student.id, message)
-            student.notifications.append(notification)
+            create_notification(student)
 
             try:
                 db.session.add(student)
