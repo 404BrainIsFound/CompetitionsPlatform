@@ -150,6 +150,8 @@ def update_rankings(comp_name):
                 db.session.commit()
             except Exception as e:
                 db.session.rollback()
+        else:
+            create_ranking(student.id, 0, competition.date)
 
     return leaderboard
 
