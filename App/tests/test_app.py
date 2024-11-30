@@ -1,5 +1,7 @@
 import os, tempfile, pytest, logging, unittest
 from werkzeug.security import check_password_hash, generate_password_hash
+from io import StringIO
+import sys
 
 from App.main import create_app
 from App.database import db, create_db
@@ -162,6 +164,8 @@ class UnitTests(unittest.TestCase):
       comp_team.detach(student)
       self.assertEqual(len(comp_team.managers),0)
 
+
+
     #CompetitionModerator Unit Tests
     def test_new_competition_moderator(self):
       
@@ -254,7 +258,30 @@ class IntegrationTests(unittest.TestCase):
     #   self.assertDictEqual(comp.get_json(), {"id": 1, "name": "RunTime", "date": "29-03-2024", "location": "St. Augustine", "level": 2, "max_score": 25, "moderators": ["debra"], "teams": []})
       
     #Feature 2 Integration Tests
-    
+
+
+    def test_competition_team_notify_manager(self):
+
+      
+
+
+      comp_team = CompetitionTeam(1, 1)
+      student = create_student("james", "jamespass", "james@email.com")
+      comp_team.attach(student)
+
+      captured_output = StringIO()
+      sys.stdout = captured_output
+
+
+      comp_team.notify()
+
+      sys.stdout = sys.__stdout__
+
+
+      output = captured_output.getvalue().strip()
+      expected_output = ("Notifying 1 managers.\nNotifying manager 1: james\nUpdating manager: james")
+      self.assertEqual(len(comp_team.managers),1)
+      self.assertEqual(output, expected_output)
 
     def test_add_results(self):
       
