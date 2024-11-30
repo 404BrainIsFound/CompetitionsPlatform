@@ -91,6 +91,17 @@ def display_notifications(username):
         return {"notifications":[notification.to_Dict() for notification in student.notifications]}
 
 
+def create_ranking(student_id, rank, date):
+    ranking = Ranking(student_id, rank, date)
+    
+    try:
+        db.session.add(ranking)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f'Error creating ranking: {e}')
+
+
 def update_rankings(comp_name):
     students = get_all_students()
     competition = Competition.query.filter_by(name=comp_name).first()
@@ -130,13 +141,12 @@ def update_rankings(comp_name):
                 message = f'RANK : {student.curr_rank}. Oh no! Your rank has went down.'
             
             student.prev_rank = student.curr_rank
-            ranking = Ranking(student.id, student.curr_rank, competition.date)
+            create_ranking(student.id, student.curr_rank, competition.date)
             notification = Notification(student.id, message)
             student.notifications.append(notification)
 
             try:
                 db.session.add(student)
-                db.session.add(ranking)
                 db.session.commit()
             except Exception as e:
                 db.session.rollback()
