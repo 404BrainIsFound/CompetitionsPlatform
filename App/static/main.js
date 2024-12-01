@@ -49,7 +49,7 @@ function openModal() {
         })
         .catch(error => {
             console.error("Error fetching rankings:", error);
-            rankingsTableBody.innerHTML = `<tr><td colspan="2">Failed to load data for {username}</td></tr>`;
+            rankingsTableBody.innerHTML = `<tr><td colspan="2">Failed to load data - No competition history!</td></tr>`;
         });
 }
 
