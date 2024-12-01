@@ -1,11 +1,11 @@
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/404BrainIsFound/CompetitionsPlatform)
-<a href="https://render.com/deploy?repo=https://github.com/404BrainIsFound/CompetitionsPlatform">
+<!-- <a href="https://render.com/deploy?repo=https://github.com/404BrainIsFound/CompetitionsPlatform">
   <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
-</a>
+</a> -->
 
 ![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
 
-# Flask MVC Template
+<!-- # Flask MVC Template
 A template for flask applications structured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/). [Postman Collection](https://documenter.getpostman.com/view/583570/2s83zcTnEJ)
 
 
@@ -190,4 +190,160 @@ If you are running into errors in gitpod when updateding your github actions fil
 
 ## Database Issues
 
-If you are adding models you may need to migrate the database with the commands given in the previous database migration section. Alternateively you can delete you database file.
+If you are adding models you may need to migrate the database with the commands given in the previous database migration section. Alternateively you can delete you database file. -->
+
+
+# Commands
+
+## Special Feature Commands
+
+### Display Student Rank History (JSON)
+
+```bash
+$ flask student rank <username>
+```
+
+### Display Student Rank History
+
+```bash
+$ flask student history <username>
+```
+
+### Display leaderboard 
+
+```bash
+$ flask mod rankings
+```
+
+## Student Commands
+
+### Create Student
+
+```bash
+$ flask student create <username> <password> <email>
+```
+
+### Update Student Username
+
+```bash
+$ flask student update <id> <username>
+```
+
+### List Students
+
+Formats:
+1. String
+2. JSON
+
+```bash
+$ flask student list <format>
+```
+
+### Display Student Profile
+
+```bash
+$ flask student display <username>
+```
+
+### Display Student Notifications
+
+```bash
+$ flask student notifications <username>
+```
+
+
+## Moderator Commands
+
+### Create Moderator
+
+```bash
+$ flask mod create <username> <password> <email>
+```
+
+### Display Moderator Profile
+
+```bash
+$ flask mod display <username>
+```
+
+### Add Competition Results
+
+The first username is a moderator username and the rest are student usernames
+
+```bash
+$ flask mod results <username> <competition_name> <team_name> <username> <username> <username>
+```
+
+### Finalize Competition Results
+
+```bash
+$ flask mod confirm <username> <competition_name>
+```
+
+### List Moderators
+
+Format:
+1. String
+2. JSON
+
+```bash
+$ flask mod list <format>
+```
+
+## Competition Commands
+
+### Create Competition
+
+Username is a moderator username
+
+```bash
+$ flask comp create <username> <name> <date> <location> <level> <max_score>
+```
+
+### Display Competition Details
+
+```bash
+$ flask comp details <name>
+```
+
+### List Competitions
+
+Format:
+1. String
+2. JSON
+
+```bash
+$ flask comp list <format>
+```
+
+### Display Competition Results
+
+```bash
+$ flask comp results <name>
+```
+
+## Test Commands
+
+### App Tests
+
+Type:
+1. Unit Tests - "unit"
+2. Integration Tests - "int"
+
+```bash
+$ flask test app <type>
+```
+
+No Type: Run all tests
+
+```bash
+$ flask test app
+```
+
+### Pytest
+
+Run all tests
+
+```bash
+$ pytest
+```
