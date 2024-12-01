@@ -263,9 +263,6 @@ class IntegrationTests(unittest.TestCase):
 
     def test_competition_team_notify_manager(self):
 
-      
-
-
       comp_team = CompetitionTeam(1, 1)
       student = create_student("james", "jamespass", "james@email.com")
       comp_team.attach(student)
@@ -280,7 +277,7 @@ class IntegrationTests(unittest.TestCase):
 
 
       output = captured_output.getvalue().strip()
-      expected_output = ("Notifying 1 managers.\nNotifying manager 1: james\nUpdating manager: james")
+      expected_output = ("Notifying 1 managers.\nNotifying manager 1: james")
       self.assertEqual(len(comp_team.managers),1)
       self.assertEqual(output, expected_output)
 

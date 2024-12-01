@@ -96,7 +96,6 @@ def add_results(mod_name, comp_name, team_name, score):
                 if comp_team:
                     comp_team.points_earned = score
                     comp_team.rating_score = int(ceil((score/comp.max_score) * 100 * comp.level))
-                    # comp_team.notify()
                     try:
                         db.session.add(comp_team)
                         db.session.commit()
@@ -133,20 +132,7 @@ def update_ratings(mod_name, comp_name):
         
         for comp_team in comp_teams:
             comp_team.notify()
-
-        # comp_teams = CompetitionTeam.query.filter_by(comp_id=comp.id).all()
-
-        # for comp_team in comp_teams:
-        #     team = Team.query.filter_by(id=comp_team.team_id).first()
-
-        #     for stud in team.students:
-        #         stud.update(comp_team.id)
-        #         try:
-        #             db.session.add(stud)
-        #             db.session.commit()
-        #         except Exception as e:
-        #             db.session.rollback()
-
+        
         comp.confirm = True
         print("Results finalized!")
         return True

@@ -36,18 +36,9 @@ class Student(User, ScoreManager):
         self.rating_score += message
         self.comp_count += 1
     
-    # def update(self, message):
-    #     result = CompetitionTeam.query.get(message)
-    #     print(f'Are we here ever?')
-    #     if result:
-    #         try:
-    #             self.rating_score += result.rating_score
-    #             self.comp_count += 1
-    #             db.session.add(self)
-    #             db.session.commit()
-    #         except Exception as e:
-    #             print(f'Error updating students: {e}')
-    #             db.session.rollback()
+    def set_rank(self, new_rank):
+        self.prev_rank = self.curr_rank
+        self.curr_rank = new_rank
 
     def get_json(self):
         return {

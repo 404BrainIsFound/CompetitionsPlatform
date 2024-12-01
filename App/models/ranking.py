@@ -15,8 +15,15 @@ class Ranking(db.Model):
         self.date = date
 
     def get_json(self):
-        return {
-            "student_id": self.student_id,
-            "rank": self.rank,
-            "date": self.date
-        }
+        if self.rank == 0:
+            return {
+                "student_id": self.student_id,
+                "rank": "Unranked",
+                "date": self.date
+            }
+        else:
+            return {
+                "student_id": self.student_id,
+                "rank": self.rank,
+                "date": self.date
+            }

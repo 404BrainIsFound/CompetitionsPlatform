@@ -55,8 +55,9 @@ def finalize_results():
     with open("competitions.csv") as competitions_file:
         reader = csv.DictReader(competitions_file)
         for competition in reader:
-            update_ratings(competition['mod_name'], competition['comp_name'])
-            update_rankings(competition['comp_name'])
+            if competition['comp_name'] != 'TopCoder':
+                update_ratings(competition['mod_name'], competition['comp_name'])
+                update_rankings(competition['comp_name'])
     competitions_file.close()
 
 
@@ -107,7 +108,6 @@ def update_student_command(id, username):
 @student_cli.command("list", help="Lists students in the database")
 @click.argument("format", default="0")
 def list_students_command(format):
-
     if format == "0":
         print ("Select Format:")
         print ("1. String")
@@ -135,12 +135,20 @@ def display_notifications_command(username):
         username = input("Enter your username: ")
     print(display_notifications(username))
 
-@student_cli.command("rank", help="Gets the rank history of the student")
+@student_cli.command("rank", help="Gets the rank history of a student")
 @click.argument("username", default="stud1")
 def get_rank_history_command(username):
     if username == "stud1":
         username = input("Enter your username: ")
     print(get_rank_history_json(username))
+
+@student_cli.command("history", help="Displays the rank history of a student")
+@click.argument("username", default="stud1")
+def display_rank_history_command(username):
+    if username == "stud1":
+        username = input("Enter your username: ")
+    display_rank_history(username)
+
 
 app.cli.add_command(student_cli)
 
@@ -211,7 +219,6 @@ def display_moderator_info_command(username):
 @click.argument("student3", default="stud3")
 @click.argument("score", default=10)
 def add_results_command(mod_name, comp_name, team_name, student1, student2, student3, score):
-
     if student1 =="stud1":
         student1 = input ("Enter the name for Student 1: ")
     if student2 =="stud2":
@@ -257,7 +264,6 @@ def display_rankings_command():
 @mod_cli.command("list", help="Lists moderators in the database")
 @click.argument("format", default="0")
 def list_moderators_command(format):
-
     if format == "0":
         print ("Select Format:")
         print ("1. String")
@@ -289,7 +295,6 @@ comp_cli = AppGroup("comp", help = "Competition commands")
 @click.argument("level", default = 10)
 @click.argument("max_score", default = 250)
 def create_competition_command(mod_name, name, date, location, level, max_score):
-
     if mod_name == "mod1":
         mod_name = input("Enter the name of the competition moderator: ")
     if name == "comp1":
@@ -319,7 +324,6 @@ def display_competition_details_command(name):
 @comp_cli.command("list", help = "list all competitions")
 @click.argument("format", default="0")
 def list_competition_command(format):
-
     if format == "0":
         print ("Select Format:")
         print ("1. String")

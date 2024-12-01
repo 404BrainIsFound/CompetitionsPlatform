@@ -91,6 +91,38 @@ def display_notifications(username):
         return {"notifications":[notification.to_Dict() for notification in student.notifications]}
 
 
+def create_ranking(student_id, rank, date):
+    ranking = Ranking(student_id, rank, date)
+    
+    try:
+        db.session.add(ranking)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f'Error creating ranking: {e}')
+
+
+def create_notification(student):
+    if student.prev_rank == 0:
+        message = f'RANK : {student.curr_rank}. Congratulations on your first rank!'
+    elif student.curr_rank == student.prev_rank:
+        message = f'RANK : {student.curr_rank}. Well done! You retained your rank.'
+    elif student.curr_rank < student.prev_rank:
+        message = f'RANK : {student.curr_rank}. Congratulations! Your rank has went up.'
+    else:
+        message = f'RANK : {student.curr_rank}. Oh no! Your rank has went down.'
+    
+    notification = Notification(student.id, message)
+    student.notifications.append(notification)
+    
+    try:
+        db.session.add(student)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f'Error updating student notifications: {e}')
+
+
 def update_rankings(comp_name):
     students = get_all_students()
     competition = Competition.query.filter_by(name=comp_name).first()
@@ -118,28 +150,19 @@ def update_rankings(comp_name):
         if student.comp_count != 0:
             leaderboard.append({"placement": curr_rank, "student": student.username, "rating score":student.rating_score})
             count += 1
-        
-            student.curr_rank = curr_rank
-            if student.prev_rank == 0:
-                message = f'RANK : {student.curr_rank}. Congratulations on your first rank!'
-            elif student.curr_rank == student.prev_rank:
-                message = f'RANK : {student.curr_rank}. Well done! You retained your rank.'
-            elif student.curr_rank < student.prev_rank:
-                message = f'RANK : {student.curr_rank}. Congratulations! Your rank has went up.'
-            else:
-                message = f'RANK : {student.curr_rank}. Oh no! Your rank has went down.'
-            
-            student.prev_rank = student.curr_rank
-            ranking = Ranking(student.id, student.curr_rank, competition.date)
-            notification = Notification(student.id, message)
-            student.notifications.append(notification)
 
             try:
+                student.set_rank(curr_rank)
                 db.session.add(student)
-                db.session.add(ranking)
                 db.session.commit()
             except Exception as e:
                 db.session.rollback()
+                print(f'Error updating student rank: {e}')
+            
+            create_ranking(student.id, student.curr_rank, competition.date)
+            create_notification(student)
+        else:
+            create_ranking(student.id, 0, competition.date)
 
     return leaderboard
 
@@ -179,17 +202,19 @@ def display_rank_history(username):
     student = get_student_by_username(username)
 
     if not student:
-        print(f'{username} does not exist!')
+        print(f'Student {username} does not exist!')
         return
     
     history = Ranking.query.filter_by(student_id=student.id).all()
     history.sort(key=lambda x: (x.id), reverse=True)
-
-    print("Rank\tDate")
+    
+    print("Rank\t Date")
+    
     for rank in history:
-        print(f'{rank["rank"]}\t{rank["date"]}')
-
-    return history
+        if rank.rank == 0:
+            print(f'Unranked {rank.date}')
+        else:
+            print(f'{rank.rank}\t {rank.date}')
 
 
 def get_rank_history_json(username):
