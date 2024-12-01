@@ -37,48 +37,20 @@ function openModal() {
     modal.style.display = "block";
 
     const username = document.querySelector(".profile-details h2").textContent.trim();
-    const history = fetch(`/students/${username}/rankings`);
-
-    //create a graph below:
-
-    const xValues = [50,60,70,80,90,100,110,120,130,140,150];
-    const yValues = [7,8,8,9,9,9,10,11,14,14,15];
-
-    new Chart("myChart", {
-        type: "line",
-        data: {
-          labels: xValues,
-          datasets: [{
-            fill: false,
-            lineTension: 0,
-            backgroundColor: "rgba(0,0,255,1.0)",
-            borderColor: "rgba(0,0,255,0.1)",
-            data: yValues
-          }]
-        },
-        options: {
-          legend: {display: false},
-          scales: {
-            yAxes: [{ticks: {min: 6, max:16}}],
-          }
-        }
-      });
-
-    // const username = document.querySelector(".profile-details h2").textContent.trim();
-    // fetch(`/students/${username}/rankings`)
-    //     .then(response => {
-    //         if (!response.ok) {
-    //             throw new Error("Failed to fetch rankings for }" + username);
-    //         }
-    //         return response.json();
-    //     })
-    //     .then(data => {
-    //         populateRankingsTable(data);
-    //     })
-    //     .catch(error => {
-    //         console.error("Error fetching rankings:", error);
-    //         rankingsTableBody.innerHTML = `<tr><td colspan="2">Failed to load data for {username}</td></tr>`;
-    //     });
+    fetch(`/students/${username}/rankings`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch rankings for }" + username);
+            }
+            return response.json();
+        })
+        .then(data => {
+            populateRankingsTable(data);
+        })
+        .catch(error => {
+            console.error("Error fetching rankings:", error);
+            rankingsTableBody.innerHTML = `<tr><td colspan="2">Failed to load data for {username}</td></tr>`;
+        });
 }
 
 
@@ -87,10 +59,31 @@ function closeModal() {
 }
 
 
+function populateRankingsTable(rankings) {
+    rankingsTableBody.innerHTML = ""; 
+    if (rankings.length === 0) {
+        rankingsTableBody.innerHTML = `<tr><td colspan="2" style="text-align: center;">No Rankings Found</td></tr>`;
+        return;
+    }
+
+    rankings.forEach(rank => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${rank.rank}</td>
+            <td>${rank.date}</td>
+        `;
+        rankingsTableBody.appendChild(row);
+    });
+}
+
 window.onclick = function (event) {
     if (event.target === modal) {
         closeModal();
     }
 };
+
+/*function closeMessage(){
+    document.getElementById("error_message").style.display = "none";
+}*/
 
 main();
