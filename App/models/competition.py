@@ -48,6 +48,9 @@ class Competition(db.Model):
             if t.id == team.id:
                 print(f'Team already registered for {self.name}!')
                 return None
+            elif t.name == team.name:
+                print(f'Team with name {t.name} already registered using {self.name}!')
+                return None
         
         comp_team = CompetitionTeam(comp_id=self.id, team_id=team.id)
         try:
