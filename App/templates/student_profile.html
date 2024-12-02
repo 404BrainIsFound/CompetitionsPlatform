@@ -50,16 +50,24 @@
         color: white;
     }
 
-    .mail-icon {
+    .profile-header-right {
+        display: flex;
+        align-items: center;
+        gap: 15px; /* Space between icons */
+    }
+
+    .mail-icon,
+    .stat-icon {
         width: 50px;
         height: 50px;
         cursor: pointer;
-        border-radius: 50%;
+        border-radius: 15%;
         transition: transform 0.3s ease;
     }
 
-    .mail-icon:hover {
-        transform: scale(1.1);
+    .mail-icon:hover,
+    .stat-icon:hover {
+        transform: scale(1.1); 
     }
 
     .stats-container {
@@ -209,7 +217,83 @@
             margin-top: 10px;
         }
     }
+
+
+    /* Modal Styling */
+    .modal {
+        display: none; 
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%;
+        min-height: 100vh;   /*This was the solution to the height (incase anyone want to know)*/
+        background-color: rgba(0, 0, 0, 0.8); 
+        overflow: auto; 
+        padding: 0;
+    }
+
+    .modal-content {
+        background-color: #9FB1BC;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 60%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+    .modal-content h2 {
+        margin-top: 0;
+        font-family: "Helvetica", sans-serif;
+    }
+
+    .modal-content table {
+        width: 100%;
+        border-spacing: 0;
+        color: black;
+        background-color: white;
+        border-radius: 5px;
+    }
+
+    .modal-content th,
+    .modal-content td {
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+
+    .close {
+        float: right;
+        font-size: 28px;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: #ddd;
+    }
 </style>
+<!-- The Stat Modal -->
+
+<div id="statsModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Historical Rankings</h2>
+        <table id="rankingsTable" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+                <tr style="background-color: #6E8898; color: white;">
+                    <th style="padding: 10px; text-align: left;">Rank</th>
+                    <th style="padding: 10px; text-align: left;">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rankings will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <!--Side Panel-->
 <div id="sidepanel" class="sidepanel" style="font-family: helvetica;">
@@ -240,11 +324,13 @@
                 <p>Email: {{ student.email }}</p>
             </div>
         </div>
-        {% if user.is_authenticated and user.id==student.id and session['user_type'] == 'student' %}
-        <div>
-            <img class="mail-icon" src="{{url_for('static', filename='mailIcon.jpg')}}" alt="Notifications" onclick="openNav()">
+        <div class="profile-header-right">
+            <img class="stat-icon" src="{{ url_for('static', filename='stats.png') }}" alt="Historical Stats" onclick="openModal()">
+            {% if user.is_authenticated and user.id==student.id and session['user_type'] == 'student' %}
+                <img class="mail-icon" src="{{url_for('static', filename='mailIcon.jpg')}}" alt="Notifications" onclick="openNav()">
+            {% endif %}
         </div>
-        {% endif %}
+        
     </div>
 
     <!-- Stats Section -->
