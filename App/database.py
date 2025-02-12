@@ -11,3 +11,6 @@ def create_db():
     
 def init_db(app):
     db.init_app(app)
+
+
+    
